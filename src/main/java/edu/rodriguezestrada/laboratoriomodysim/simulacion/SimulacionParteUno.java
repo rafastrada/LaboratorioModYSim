@@ -20,7 +20,7 @@ public class SimulacionParteUno {
         this.eventosFuturos = new Fel(this.tiempoFinalizacion);
         
         // se inserta entidad cero
-        this.eventosFuturos.add(Arribo(0,new Avion()));
+        this.eventosFuturos.add(new Arribo(0,new Avion()));
     }
     
     public void iniciarSimulacion() {
