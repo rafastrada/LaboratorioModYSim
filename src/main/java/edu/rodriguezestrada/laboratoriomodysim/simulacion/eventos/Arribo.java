@@ -6,9 +6,9 @@ import edu.rodriguezestrada.laboratoriomodysim.simulacion.Avion;
  *
  * @author gestrada
  */
-public class Llegada extends Evento {
+public class Arribo extends Evento {
 
-    public Llegada(int tiempo, Avion entidad) {
+    public Arribo(int tiempo, Avion entidad) {
         super(tiempo, entidad);
     }
     
