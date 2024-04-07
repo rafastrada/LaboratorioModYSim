@@ -1,6 +1,7 @@
 package edu.rodriguezestrada.laboratoriomodysim.simulacion;
 
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos.Arribo;
+import edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos.Evento;
 
 /**
  *
@@ -25,5 +26,29 @@ public class SimulacionParteUno {
     
     public void iniciarSimulacion() {
         
+        while (reloj != tiempoFinalizacion){
+            Evento eventoInminente = eventosFuturos.remove(0);
+            String event = eventoInminente.getClass().getSimpleName();
+            Avion item = eventoInminente.getEntidad();
+            int time = eventoInminente.getTiempo();
+            
+            
+            
+            switch (event){
+                case "Arribo":
+                    if (servidor.getAtendiendo() != null){
+                        servidor.setAtendiendo(item);
+                        Probabilidad tiempoSalida = probabilidad
+                        Salida planSalida = new Salida()
+                    }
+                    else{}
+                     
+                    break;
+                
+                case "Salida":
+                    break;
+            }
+            
+        }
     }
 }
