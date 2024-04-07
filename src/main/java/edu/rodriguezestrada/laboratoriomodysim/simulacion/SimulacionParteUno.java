@@ -2,6 +2,10 @@ package edu.rodriguezestrada.laboratoriomodysim.simulacion;
 
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos.Arribo;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos.Evento;
+import edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos.Salida;
+import edu.rodriguezestrada.laboratoriomodysim.simulacion.probabilidad.ProbabilidadArbitraria;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Vector;
 
 /**
  *
@@ -25,27 +29,62 @@ public class SimulacionParteUno {
     }
     
     public void iniciarSimulacion() {
+        Vector<SimpleEntry<Integer, Double>> probabilidades = new Vector<>();
+        probabilidades.add(new SimpleEntry<>(8, 0.38));
+        probabilidades.add(new SimpleEntry<>(10, 0.32));
+        probabilidades.add(new SimpleEntry<>(13, 0.1));
+        probabilidades.add(new SimpleEntry<>(15, 0.2));
+        
+        ProbabilidadArbitraria tiempoEnPista = new ProbabilidadArbitraria(probabilidades);
+        
+        Vector<SimpleEntry<Integer, Double>> probabilidadesArribos = new Vector<>();
+        probabilidadesArribos.add(new SimpleEntry<>(10, 0.35));
+        probabilidadesArribos.add(new SimpleEntry<>(15, 0.45));
+        probabilidadesArribos.add(new SimpleEntry<>(17, 0.2));
+        
+        ProbabilidadArbitraria tiempoEntreArribos = new ProbabilidadArbitraria(probabilidadesArribos);
         
         while (reloj != tiempoFinalizacion){
             Evento eventoInminente = eventosFuturos.remove(0);
             String event = eventoInminente.getClass().getSimpleName();
             Avion item = eventoInminente.getEntidad();
-            int time = eventoInminente.getTiempo();
+            int time = eventoInminente.getTiempo(); 
+            
             
             
             
             switch (event){
                 case "Arribo":
+                    Arribo arribo = (Arribo) eventoInminente;
                     if (servidor.getAtendiendo() != null){
                         servidor.setAtendiendo(item);
-                        Probabilidad tiempoSalida = probabilidad
-                        Salida planSalida = new Salida()
+                        int duracion = tiempoEnPista.generarValor();
+                        int tiempoSalida = duracion + time;
+                        Salida newSalida = new Salida(tiempoSalida, item);
+                        eventosFuturos.add(newSalida);
                     }
-                    else{}
-                     
+                    else{
+                        servidor.cola.add(arribo);
+                        int tamañoCola = servidor.getCola().size();
+                    }
+                    int tiempoArribos = tiempoEntreArribos.generarValor();
+                    int llegada = time + tiempoArribos;
+                    Avion siguienteAvion = new Avion();
+                    Arribo newArribo = new Arribo(llegada, siguienteAvion);
+                    eventosFuturos.add(newArribo);
                     break;
                 
                 case "Salida":
+                    Salida salida = (Salida) eventoInminente;
+                    if (servidor.cola.isEmpty()){
+                        servidor.setAtendiendo(null);
+                    }
+                    else{
+                        Arribo atender = servidor.cola.remove();
+                        int tiempoSalida = atender.getTiempo() + tiempoEnPista.generarValor();
+                        Salida newSalida = new Salida(tiempoSalida, atender.getEntidad());
+                        eventosFuturos.add(newSalida);
+                    }
                     break;
             }
             

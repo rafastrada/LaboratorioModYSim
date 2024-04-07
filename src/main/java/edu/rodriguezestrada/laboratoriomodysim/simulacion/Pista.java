@@ -12,7 +12,7 @@ public class Pista {
     private Avion atendiendo = null;
     protected ArrayDeque<Arribo> cola;
 
-    public ArrayDeque getCola() {
+    public ArrayDeque<Arribo> getCola() {
         return cola;
     }
 
