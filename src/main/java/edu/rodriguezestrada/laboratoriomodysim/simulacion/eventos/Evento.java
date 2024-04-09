@@ -56,6 +56,12 @@ public abstract class Evento implements Comparator {
     }
 
     @Override
+    public String toString() {
+//        return super.toString(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+        return this.getClass().getSimpleName() + "= Tiempo:" + String.valueOf(this.tiempo);
+    }
+
+    @Override
     public int compare(Object o1, Object o2) {
         int salida = 1;
         Evento evento1 = (Evento) o1, evento2 = (Evento) o2;
@@ -64,12 +70,12 @@ public abstract class Evento implements Comparator {
             salida = -1;
         }
         else {
-            if (evento1.getTiempo() == evento2.getTiempo()
-                    &&
-                    evento1.getClass().getSimpleName().equals("Salida")) {
-                salida = -1;
+            if (evento1.getTiempo() == evento2.getTiempo() &&
+                (evento1.getClass().getSimpleName().equals("Salida")
+                        ||
+                        !evento1.getClass().getSimpleName().equals("Fin")))
+                    salida = -1;
             }
-        }
         
         return salida;
     }
