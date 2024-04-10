@@ -8,7 +8,7 @@ import java.util.Comparator;
  *
  * @author gestrada
  */
-public abstract class Evento implements Comparator {
+public abstract class Evento {
 
     private static Probabilidad valoresAzarosos = null;
 
@@ -61,23 +61,27 @@ public abstract class Evento implements Comparator {
         return this.getClass().getSimpleName() + "= Tiempo:" + String.valueOf(this.tiempo);
     }
 
-    @Override
-    public int compare(Object o1, Object o2) {
-        int salida = 1;
-        Evento evento1 = (Evento) o1, evento2 = (Evento) o2;
+    
+    static class Comparador implements Comparator<Evento> {
         
-        if (evento1.getTiempo() < evento2.getTiempo()) {
-            salida = -1;
-        }
-        else {
-            if (evento1.getTiempo() == evento2.getTiempo() &&
-                (evento1.getClass().getSimpleName().equals("Salida")
-                        ||
-                        !evento1.getClass().getSimpleName().equals("Fin")))
-                    salida = -1;
+        public int compare(Evento evento1, Evento evento2) {
+            int salida = 1;
+
+            if (evento1.getTiempo() < evento2.getTiempo()) {
+                salida = -1;
             }
-        
-        return salida;
+            else {
+                if (evento1.getTiempo() == evento2.getTiempo() &&
+                    (evento1.getClass().getSimpleName().equals("Salida")
+                            ||
+                        // ubica el evento Fin antes que los Arribos con tiempo similar
+                            (evento1.getClass().getSimpleName().equals("Fin")
+                                && evento2.getClass().getSimpleName().equals("Arribo"))))
+                        salida = -1;
+                }
+
+            return salida;
+        }
     }
 
 }

@@ -18,7 +18,7 @@ public class EventoTest {
     @Test
     @DisplayName("Tests de comparación de Eventos")
     public void testComparacion() throws Exception {
-        EventoImpl comparador = new EventoImpl(0);
+        Evento.Comparador comparador = new Evento.Comparador();
         int expResult = -1;
         
         int result = comparador.compare(new Arribo(1, null), new Arribo(2, null));
@@ -35,7 +35,7 @@ public class EventoTest {
     @Test
     @DisplayName("Test de ordenación de Eventos en una colección")
     public void testOrdenacion() {
-        EventoImpl comparador = new EventoImpl();
+//        EventoImpl comparador = new EventoImpl();
         
         ArrayList<Evento> lista = new ArrayList<Evento>();
         
@@ -49,7 +49,7 @@ public class EventoTest {
         lista.add(new Salida(0,null));
         
         // se ordena
-        lista.sort(comparador);
+        lista.sort(new Evento.Comparador());
         
         Iterator<Evento> iterador = lista.iterator();
         Evento visor;
