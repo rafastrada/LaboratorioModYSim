@@ -17,7 +17,7 @@ public class ProbabilidadArbitraria implements Probabilidad {
         this.densidad_probabilidad = densidad_probabilidad;
     }
 
-    private Integer obtenerValor(Double numeroAzaroso) {
+    protected Integer obtenerValor(Double numeroAzaroso) {
         Double probabilidad_acumulada = 0.0;
         Integer salida = null;
         
