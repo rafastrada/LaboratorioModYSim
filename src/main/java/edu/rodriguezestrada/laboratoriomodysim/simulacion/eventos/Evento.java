@@ -62,7 +62,7 @@ public abstract class Evento {
     }
 
     
-    static class Comparador implements Comparator<Evento> {
+    public static class Comparador implements Comparator<Evento> {
         
         public int compare(Evento evento1, Evento evento2) {
             int salida = 1;

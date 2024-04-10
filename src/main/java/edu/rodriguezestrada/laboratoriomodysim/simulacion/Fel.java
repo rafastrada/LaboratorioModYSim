@@ -2,7 +2,6 @@ package edu.rodriguezestrada.laboratoriomodysim.simulacion;
 
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos.Evento;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos.Fin;
-import edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos.Salida;
 import java.util.ArrayList;
 
 /**
@@ -18,19 +17,7 @@ public class Fel extends ArrayList<Evento> {
     }
     
     public void ordenarFEL() {
-        int n = this.size();
-        for (int i = 0; i < n - 1; i++) {
-            for (int j = 0; j < n - i - 1; j++) {
-                Evento event1 = this.get(j);
-                Evento event2 = this.get(j + 1);
-                if (event1.getTiempo() > event2.getTiempo() ||
-                        (event1.getTiempo() == event2.getTiempo() &&
-                                event1.getClass().equals(Salida.class))) {
-                    this.set(j, event2);
-                    this.set(j + 1, event1);
-                }
-            }
-        }
+        this.sort(new Evento.Comparador());
     }
 }
     
