@@ -34,8 +34,8 @@ public abstract class Evento {
         return Evento.valoresAzarosos.generarValor();
     }
     
-    private final int tiempo;
-    private final Avion entidad;
+    protected int tiempo;
+    protected Avion entidad;
 
     public Evento(int tiempo, Avion entidad) {
         this.tiempo = tiempo;
@@ -83,5 +83,4 @@ public abstract class Evento {
             return salida;
         }
     }
-
 }

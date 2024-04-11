@@ -24,4 +24,7 @@ public class Avion {
         return numeroEntidad;
     }
 
+    public String toString(){
+        return "Avion #" + numeroEntidad;
+    }
 }

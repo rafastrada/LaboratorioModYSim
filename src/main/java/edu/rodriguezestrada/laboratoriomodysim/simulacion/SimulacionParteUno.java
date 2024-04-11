@@ -18,7 +18,7 @@ public class SimulacionParteUno implements Simulacion {
     private Fel eventosFuturos;
     
     // tiempo que termina la simulacion
-    public final int tiempoFinalizacion = 100;
+    public final int tiempoFinalizacion = 40320;
 
     public SimulacionParteUno() {
         this.enEjecucion = false;
@@ -28,6 +28,7 @@ public class SimulacionParteUno implements Simulacion {
         
         // se inserta entidad cero
         this.eventosFuturos.add(new Arribo(0,new Avion()));
+        eventosFuturos.ordenarFEL();
     }
     
     public void inicializarProbabilidades() {
@@ -58,31 +59,32 @@ public class SimulacionParteUno implements Simulacion {
         // asigna la funciones de densidad de probabilidad y tiempos asociados a los eventos
         this.inicializarProbabilidades();
         
-        while (reloj != tiempoFinalizacion){
+        while (reloj <= tiempoFinalizacion){
+            
             Evento eventoInminente = eventosFuturos.remove(0);
             String event = eventoInminente.getClass().getSimpleName();
             Avion item = eventoInminente.getEntidad();
-            int time = eventoInminente.getTiempo(); 
-            
-            
-            
+            int momentoDelEvento = eventoInminente.getTiempo();
+            reloj = momentoDelEvento;
             
             switch (event){
                 case "Arribo":
                     Arribo arribo = (Arribo) eventoInminente;
-                    if (servidor.getAtendiendo() != null){
+                    if (servidor.getAtendiendo() == null){
                         servidor.setAtendiendo(item);
                         int duracion = Salida.calcularDuracion();
-                        int tiempoSalida = duracion + time;
+                        System.out.println("Salida del " + item + duracion);
+                        int tiempoSalida = duracion + momentoDelEvento;
                         Salida newSalida = new Salida(tiempoSalida, item);
                         eventosFuturos.add(newSalida);
                     }
                     else{
                         servidor.cola.add(arribo);
-                        int tamañoCola = servidor.getCola().size();
+                        //int tamañoCola = servidor.getCola().size();
                     }
                     int tiempoArribos = Arribo.calcularDuracion();
-                    int llegada = time + tiempoArribos;
+                    System.out.println("tiempo entre arribos: " + tiempoArribos);
+                    int llegada = momentoDelEvento + tiempoArribos;
                     Avion siguienteAvion = new Avion();
                     Arribo newArribo = new Arribo(llegada, siguienteAvion);
                     eventosFuturos.add(newArribo);
@@ -95,13 +97,25 @@ public class SimulacionParteUno implements Simulacion {
                     }
                     else{
                         Arribo atender = servidor.cola.remove();
-                        int tiempoSalida = atender.getTiempo() + Salida.calcularDuracion();
+                        servidor.setAtendiendo(atender.getEntidad());
+                        int tiempoServis = Salida.calcularDuracion();
+                        System.out.println("tiempo del servicio del " + atender.getEntidad() + tiempoServis);
+                        int tiempoSalida = reloj + tiempoServis;
                         Salida newSalida = new Salida(tiempoSalida, atender.getEntidad());
                         eventosFuturos.add(newSalida);
                     }
                     break;
             }
-            
+            eventosFuturos.ordenarFEL();
+            System.out.println("PROCESANDO: " + eventoInminente.getClass().getSimpleName());
+            System.out.println("RELOJ: " + reloj);
+            System.out.println("AVION EN SERVIDOR");
+            System.out.println(servidor.getAtendiendo());
+            System.out.println("FEL: ");
+            System.out.println(eventosFuturos);
+            System.out.println("COLA: ");
+            System.out.println(servidor.cola);
+            System.out.println("---------------------------");
         }
     }
 }

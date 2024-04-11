@@ -11,4 +11,9 @@ public class Fin extends Evento {
     public Fin(int tiempoFinalizacion) {
         super(tiempoFinalizacion, null);
     }
+    
+    @Override
+    public String toString(){
+        return "(F, -1" + ", " + tiempo + ")";
+    }
 }
