@@ -12,4 +12,8 @@ public class Arribo extends Evento {
         super(tiempo, entidad);
     }
     
+    @Override
+    public String toString(){
+        return "(A, " + this.entidad + ", " + this.tiempo + ")";
+    }
 }

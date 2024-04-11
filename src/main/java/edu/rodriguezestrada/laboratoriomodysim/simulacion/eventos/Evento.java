@@ -34,8 +34,8 @@ public abstract class Evento implements Comparator {
         return Evento.valoresAzarosos.generarValor();
     }
     
-    private final int tiempo;
-    private final Avion entidad;
+    protected int tiempo;
+    protected Avion entidad;
 
     public Evento(int tiempo, Avion entidad) {
         this.tiempo = tiempo;
@@ -57,11 +57,11 @@ public abstract class Evento implements Comparator {
 
     @Override
     public int compare(Object o1, Object o2) {
-        int salida = 1;
+        int salida = 1; // evento 2 tiene que ir antes que el 1
         Evento evento1 = (Evento) o1, evento2 = (Evento) o2;
         
         if (evento1.getTiempo() < evento2.getTiempo()) {
-            salida = -1;
+            salida = -1; // evento 1 tiene que ir antes que el 2
         }
         else {
             if (evento1.getTiempo() == evento2.getTiempo()
@@ -74,4 +74,6 @@ public abstract class Evento implements Comparator {
         return salida;
     }
 
+    @Override
+    public abstract String toString();
 }

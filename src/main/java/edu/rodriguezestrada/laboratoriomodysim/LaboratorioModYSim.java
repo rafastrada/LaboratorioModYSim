@@ -4,6 +4,8 @@
 
 package edu.rodriguezestrada.laboratoriomodysim;
 
+import edu.rodriguezestrada.laboratoriomodysim.simulacion.SimulacionParteUno;
+
 /**
  *
  * @author gestrada
@@ -11,6 +13,7 @@ package edu.rodriguezestrada.laboratoriomodysim;
 public class LaboratorioModYSim {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        SimulacionParteUno simulacion = new SimulacionParteUno();
+        simulacion.iniciarSimulacion();
     }
 }
