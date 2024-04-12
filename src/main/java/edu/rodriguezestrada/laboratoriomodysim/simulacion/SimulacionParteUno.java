@@ -5,6 +5,8 @@ import edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos.Evento;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos.Salida;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.probabilidad.ProbabilidadArbitraria;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Vector;
 
 /**
@@ -16,6 +18,7 @@ public class SimulacionParteUno implements Simulacion {
     private boolean enEjecucion;
     private Pista servidor;
     private Fel eventosFuturos;
+    private Estadistica estadisticas;
     
     // tiempo que termina la simulacion
     public final int tiempoFinalizacion = 40320;
@@ -29,6 +32,9 @@ public class SimulacionParteUno implements Simulacion {
         // se inserta entidad cero
         this.eventosFuturos.add(new Arribo(0,new Avion()));
         eventosFuturos.ordenarFEL();
+        
+        this.estadisticas = new Estadistica();
+        
     }
     
     public void inicializarProbabilidades() {
@@ -54,12 +60,19 @@ public class SimulacionParteUno implements Simulacion {
         this.enEjecucion = false;
     }
     
+    /**
+     * inicia simulacion para la parte uno
+     */
+    @Override
     public void iniciarSimulacion() {
         
         // asigna la funciones de densidad de probabilidad y tiempos asociados a los eventos
         this.inicializarProbabilidades();
         
-        while (reloj <= tiempoFinalizacion){
+        ArrayList<Integer> tiemposDeServicio = new ArrayList<>();
+        ArrayList<Integer> tiemposDeEspera = new ArrayList<>();
+        
+        while (reloj < tiempoFinalizacion){
             
             Evento eventoInminente = eventosFuturos.remove(0);
             String event = eventoInminente.getClass().getSimpleName();
@@ -72,14 +85,25 @@ public class SimulacionParteUno implements Simulacion {
                     Arribo arribo = (Arribo) eventoInminente;
                     if (servidor.getAtendiendo() == null){
                         servidor.setAtendiendo(item);
+                        // finalizar tiempo de ocio numero #
+                        int finOcio = reloj;
+                        // agregar al arra el tiempo de ocio calculado (reloj-inicioOcio)
+                        //int tiempoOcio = finOcio - inicioOcio;
                         int duracion = Salida.calcularDuracion();
-                        System.out.println("Salida del " + item + duracion);
+                        System.out.println("Salida del " + item + " >>>>>> " + duracion);
                         int tiempoSalida = duracion + momentoDelEvento;
                         Salida newSalida = new Salida(tiempoSalida, item);
                         eventosFuturos.add(newSalida);
+                        if (!(tiemposDeServicio.contains(duracion))){
+                            tiemposDeServicio.add(duracion);
+                        }
                     }
                     else{
                         servidor.cola.add(arribo);
+                        
+                        // inicio tiempo de espera del arribo # (asociar el arribo al clock)
+                        estadisticas.iniciosEspera.add(reloj);
+
                         //int tamañoCola = servidor.getCola().size();
                     }
                     int tiempoArribos = Arribo.calcularDuracion();
@@ -94,12 +118,25 @@ public class SimulacionParteUno implements Simulacion {
                     Salida salida = (Salida) eventoInminente;
                     if (servidor.cola.isEmpty()){
                         servidor.setAtendiendo(null);
+                        // iniciar tiempo de ocio numero #
+                        int inicioOcio = reloj;
                     }
                     else{
                         Arribo atender = servidor.cola.remove();
+                        
+                        
+                        // finalizar tiempo de espera del avion # (reloj-inicioTiempoEspera)
+                        int inicioEspera = estadisticas.iniciosEspera.remove();
+                        int espera = reloj - inicioEspera;
+                        // agregar tiempo de espera al array tiempos de espera
+                        estadisticas.tiemposEspera.add(espera);
+      
                         servidor.setAtendiendo(atender.getEntidad());
                         int tiempoServis = Salida.calcularDuracion();
-                        System.out.println("tiempo del servicio del " + atender.getEntidad() + tiempoServis);
+                        if (!(tiemposDeServicio.contains(tiempoServis))){
+                            tiemposDeServicio.add(tiempoServis);
+                        }
+                        System.out.println("tiempo del servicio del " + atender.getEntidad() + " >>>>> " + tiempoServis);
                         int tiempoSalida = reloj + tiempoServis;
                         Salida newSalida = new Salida(tiempoSalida, atender.getEntidad());
                         eventosFuturos.add(newSalida);
@@ -117,5 +154,22 @@ public class SimulacionParteUno implements Simulacion {
             System.out.println(servidor.cola);
             System.out.println("---------------------------");
         }
+        System.out.println("-------------- ESTADISTICAS ----------------");
+        System.out.println(" ");
+        System.out.println("CANTIDAD DE AERONAVES QUE HAN ARRIBADO: " + servidor.cola.getLast().getEntidad().getNumeroEntidad());
+        int cantidadAterrizados = servidor.getAtendiendo().getNumeroEntidad();
+        System.out.println("CANTIDAD DE NAVES ATERRIZADAS: " + cantidadAterrizados);
+        
+        /*float tiempoMedio = servidor.generarTiempoPromedio(reloj, cantidadAterrizados);*/
+        int tiempoMax = Collections.max(tiemposDeServicio);
+        int tiempoMin = Collections.min(tiemposDeServicio);
+        System.out.println("TIEMPOS EN SISTEMA");
+        System.out.println("Medio: " + 0 + " | Maximo: " + tiempoMax + " | Minimo: " + tiempoMin);
+        System.out.println("TIEMPOS DE ESPERA");
+        int tiempoEsperaMax = Collections.max(estadisticas.tiemposEspera);
+        int tiempoEsperaMin = Collections.min(estadisticas.tiemposEspera);
+        
+        System.out.println("Medio: " + 0 + " | Maximo: " + tiempoEsperaMax + " | Minimo: " + tiempoEsperaMin);
+        
     }
 }

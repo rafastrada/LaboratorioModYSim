@@ -6,7 +6,7 @@ package edu.rodriguezestrada.laboratoriomodysim.simulacion;
  */
 public class Avion {
 
-    private static int cantidadEntidades = 0;
+    private static int cantidadEntidades = 1;
 
     public static int getCantidadEntidades() {
         return cantidadEntidades;

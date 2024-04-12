@@ -27,7 +27,5 @@ public class Pista {
 
     public void setAtendiendo(Avion atendiendo) {
         this.atendiendo = atendiendo;
-    }
-
-    
+    }   
 }
