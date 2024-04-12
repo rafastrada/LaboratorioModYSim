@@ -13,7 +13,7 @@ public class Pista {
     private Avion atendiendo = null;
     
     // par clave,valor donde la clave es el avion y el valor el tiempo en el que entro a la cola
-    protected ArrayDeque<SimpleEntry<Avion,Integer>> cola; 
+    private ArrayDeque<SimpleEntry<Avion,Integer>> cola; 
     
     private Estadisticas estadisticasPista;
 
