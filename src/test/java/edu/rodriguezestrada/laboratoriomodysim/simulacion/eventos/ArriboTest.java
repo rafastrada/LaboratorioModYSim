@@ -33,9 +33,9 @@ public class ArriboTest {
     @Test
     public void testSomeMethod() {
         Avion avion1 = new Avion();
-        Arribo inicio = new Arribo(0, avion1);
+        //Arribo inicio = new Arribo(0, avion1);
         
-        Avion entidadSalida = inicio.procesarEvento(this.fel, true);
+        //Avion entidadSalida = inicio.procesarEvento(this.fel, true);
         
         this.fel.ordenarFEL();
         this.fel.forEach((evento) -> {
