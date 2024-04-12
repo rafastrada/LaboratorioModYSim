@@ -13,7 +13,7 @@ public class Arribo extends Evento {
         super(tiempo, entidad);
     }
 
-    public Avion procesarEvento(Fel eventosFuturos, boolean servidorLibre) {
+    public void procesarEvento(Fel eventosFuturos, boolean servidorLibre) {
         // genera proximo evento y se introduce en la FEL
         eventosFuturos.add(new Arribo(
                 this.tiempo + Arribo.calcularDuracion(),
@@ -24,8 +24,6 @@ public class Arribo extends Evento {
                     new Salida(this.tiempo + Salida.calcularDuracion(), this.entidad));
         
         eventosFuturos.ordenarFEL();
-        
-        return this.entidad;
     }
     
     @Override

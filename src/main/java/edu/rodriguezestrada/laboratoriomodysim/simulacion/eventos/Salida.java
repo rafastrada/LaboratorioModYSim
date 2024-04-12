@@ -14,7 +14,7 @@ public class Salida extends Evento {
         super(tiempo, entidad);
     }
     
-    public Avion procesarEvento(Fel eventosFuturos, Avion entidadProxima) {
+    public void procesarEvento(Fel eventosFuturos, Avion entidadProxima) {
         // si hay proxima entidad para salir se genera su salida
         // (entidadProxima != null)
         if (Objects.nonNull(entidadProxima)) {
@@ -23,8 +23,6 @@ public class Salida extends Evento {
             
             eventosFuturos.ordenarFEL();
         }
-        
-        return this.entidad;
     }
     
     @Override
