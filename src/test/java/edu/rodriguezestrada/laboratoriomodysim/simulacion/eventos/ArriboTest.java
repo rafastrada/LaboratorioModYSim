@@ -4,6 +4,7 @@ import edu.rodriguezestrada.laboratoriomodysim.simulacion.Avion;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.Fel;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.probabilidad.ProbabilidadArbitraria;
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Vector;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -22,7 +23,7 @@ public class ArriboTest {
     
     @BeforeAll
     public static void prepararProbabilidad() {
-        Vector<AbstractMap.SimpleEntry<Integer, Double>> probabilidades = new Vector<AbstractMap.SimpleEntry<Integer,Double>>();
+        ArrayList<AbstractMap.SimpleEntry<Integer, Double>> probabilidades = new ArrayList<AbstractMap.SimpleEntry<Integer,Double>>();
         
         probabilidades.add(new AbstractMap.SimpleEntry<Integer,Double>(5,1.0));
         

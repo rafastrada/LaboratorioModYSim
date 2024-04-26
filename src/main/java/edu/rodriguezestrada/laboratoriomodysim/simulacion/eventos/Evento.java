@@ -9,30 +9,6 @@ import java.util.Comparator;
  * @author gestrada
  */
 public abstract class Evento {
-
-    private static Probabilidad valoresAzarosos = null;
-
-    /**
-     * Get the value of valoresAzarosos
-     *
-     * @return the value of valoresAzarosos
-     */
-    public static Probabilidad getValoresAzarosos() {
-        return valoresAzarosos;
-    }
-
-    /**
-     * Set the value of valoresAzarosos
-     *
-     * @param valoresAzarosos new value of valoresAzarosos
-     */
-    public static void setValoresAzarosos(Probabilidad valoresAzarosos) {
-        Evento.valoresAzarosos = valoresAzarosos;
-    }
-
-    public static Integer calcularDuracion() {
-        return Evento.valoresAzarosos.generarValor();
-    }
     
     protected int tiempo;
     protected Avion entidad;

@@ -1,10 +1,10 @@
 package edu.rodriguezestrada.laboratoriomodysim.simulacion.probabilidad;
 
 import java.util.AbstractMap.SimpleEntry;
-import java.util.Vector;
-import org.junit.jupiter.api.Test;
+import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 /**
  *
@@ -15,7 +15,7 @@ public class ProbabilidadArbitrariaTest {
     private ProbabilidadArbitraria probabilidades;
     
     public ProbabilidadArbitrariaTest() {
-        Vector<SimpleEntry<Integer,Double>> vector = new Vector();
+        ArrayList<SimpleEntry<Integer,Double>> vector = new ArrayList();
         
         vector.add(new SimpleEntry<Integer,Double>(4,0.5));
         vector.add(new SimpleEntry<Integer,Double>(6,0.5));
@@ -32,6 +32,8 @@ public class ProbabilidadArbitrariaTest {
         assertEquals(4, this.probabilidades.obtenerValor(0.3));
         assertEquals(6, this.probabilidades.obtenerValor(0.5));
         assertEquals(6, this.probabilidades.obtenerValor(0.6));
+        
+        assertNull(this.probabilidades.obtenerValor(1.0));
         
         assertNotEquals(4,this.probabilidades.obtenerValor(0.5));
         assertNotEquals(4,this.probabilidades.obtenerValor(0.8));

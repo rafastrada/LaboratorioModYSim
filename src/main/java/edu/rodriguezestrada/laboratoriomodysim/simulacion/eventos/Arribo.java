@@ -2,6 +2,7 @@ package edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos;
 
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.Avion;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.Fel;
+import edu.rodriguezestrada.laboratoriomodysim.simulacion.probabilidad.Probabilidad;
 
 /**
  *
@@ -9,6 +10,20 @@ import edu.rodriguezestrada.laboratoriomodysim.simulacion.Fel;
  */
 public class Arribo extends Evento {
 
+    private static Probabilidad valoresAzarosos = null;
+
+    public static Probabilidad getValoresAzarosos() {
+        return valoresAzarosos;
+    }
+
+    public static void setValoresAzarosos(Probabilidad valoresAzarosos) {
+        Arribo.valoresAzarosos = valoresAzarosos;
+    }
+    
+    public static Integer calcularDuracion() {
+        return Arribo.valoresAzarosos.generarValor();
+    }
+    
     public Arribo(int tiempo, Avion entidad) {
         super(tiempo, entidad);
     }

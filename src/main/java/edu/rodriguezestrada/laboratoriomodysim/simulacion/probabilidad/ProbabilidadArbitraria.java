@@ -1,8 +1,8 @@
 package edu.rodriguezestrada.laboratoriomodysim.simulacion.probabilidad;
 
 import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Vector;
 
 
 /**
@@ -11,9 +11,9 @@ import java.util.Vector;
  */
 public class ProbabilidadArbitraria implements Probabilidad {
     
-    private final Vector<SimpleEntry<Integer, Double>> densidad_probabilidad;
+    private final ArrayList<SimpleEntry<Integer, Double>> densidad_probabilidad;
 
-    public ProbabilidadArbitraria(Vector<SimpleEntry<Integer, Double>> densidad_probabilidad) {
+    public ProbabilidadArbitraria(ArrayList<SimpleEntry<Integer, Double>> densidad_probabilidad) {
         this.densidad_probabilidad = densidad_probabilidad;
     }
 
@@ -25,13 +25,12 @@ public class ProbabilidadArbitraria implements Probabilidad {
         while (iterador.hasNext()) {
             // contenedor temporal
             SimpleEntry<Integer, Double> campo = iterador.next();
+            probabilidad_acumulada += campo.getValue(); 
             
-            if (numeroAzaroso >= probabilidad_acumulada &&
-                    numeroAzaroso < probabilidad_acumulada + campo.getValue()) {
+            if (numeroAzaroso < probabilidad_acumulada) {
                 salida = campo.getKey();
                 break;
             }
-            else probabilidad_acumulada += campo.getValue();
         }
         
         return salida;

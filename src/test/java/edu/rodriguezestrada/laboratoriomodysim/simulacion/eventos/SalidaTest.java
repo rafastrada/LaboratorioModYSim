@@ -4,6 +4,7 @@ import edu.rodriguezestrada.laboratoriomodysim.simulacion.Avion;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.Fel;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.probabilidad.ProbabilidadArbitraria;
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Vector;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,7 +18,7 @@ public class SalidaTest {
     public SalidaTest() {
         this.fel = new Fel(100);
         
-        Vector<AbstractMap.SimpleEntry<Integer,Double>> probabilidades = new Vector<>();
+        ArrayList<AbstractMap.SimpleEntry<Integer,Double>> probabilidades = new ArrayList<>();
         
         probabilidades.add(new AbstractMap.SimpleEntry<>(5,1.0));
         
