@@ -118,7 +118,7 @@ public class SimulacionParteUno {
         System.out.println(" ");
         //System.out.println("CANTIDAD DE AERONAVES QUE HAN ARRIBADO: " + servidor.cola.getLast().getEntidad().getNumeroEntidad());
         System.out.println("CANTIDAD DE NAVES ATERRIZADAS: " + resultados.getAvionesAterrizajes());
-        
+        System.out.println("CANTIDAD DE NAVES ARRIBADAS: " + resultados.getAvionesArribos());
         /*float tiempoMedio = servidor.generarTiempoPromedio(reloj, cantidadAterrizados);*/
         
         System.out.println("TIEMPOS EN SISTEMA");
@@ -131,6 +131,16 @@ public class SimulacionParteUno {
         System.out.println("Medio: " + resultados.getEsperaMedio() +
                 " | Maximo: " + resultados.getEsperaMaximo() +
                 " | Minimo: " + resultados.getEsperaMinimo());
+        
+        System.out.println("TIEMPOS DE OCIO");
+        
+        System.out.println("Total: " + (String.format("%.2f",resultados.getOcioTotalProporcional(this.tiempoFinalizacion)*100)) + "%" + 
+                " | Maximo: " + resultados.getOcioMaximo() + 
+                " | Minimo: " + resultados.getOcioMinimo());
+        
+        System.out.println("TAMAÑO COLA DE ESPERA");
+        System.out.println("Maximo: " + resultados.getColaTamanioMaximo() + 
+                " | Minimo: " + resultados.getColaTamanioMinimo());
         
     }
 }
