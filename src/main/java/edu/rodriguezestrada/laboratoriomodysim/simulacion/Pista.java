@@ -4,7 +4,12 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayDeque;
 import java.util.Objects;
 
-/**
+/** Recibe y despacha aviones.
+ * 
+ * El objeto Pista es un servidor de entidades de tipo Avion, el cual puede administrar arribos y salidas, y generar estadísticas a partir de estos eventos.
+ * Pista administra la organización de los arribos si éstos pasan a ser atendidos o a la cola de espera.
+ * Para delegar eventos a ésta clase debe utilizarse las funciones de 'ingreso' y 'salida' de avion, a las cuales se les da la entidad relacionada, y el momento reloj en el que se produce dicho evento.
+ * Algo a tener en cuenta es que los valores de reloj ingresados en los eventos NO pueden ser menores que uno previamente ingresado. La clase simula el tiempo siempre hacia delante.
  *
  * @author gestrada
  */
@@ -47,6 +52,13 @@ public class Pista {
         else return 0.0;
     }
     
+    /**
+     * Procesa el arribo de un Avion.
+     * 
+     * @param ingresante Avion que arriba a la pista
+     * @param reloj Momento (clock) en el que llega la entidad
+     * @throws Exception Se produce cuando se ingresa un valor de reloj que es menor que uno ingresado previamente
+     */
     public void ingresoDeAvion(Avion ingresante, Double reloj) throws Exception {
         
         // si la cola esta vacia, peek devuelve null, hay que manejar para que devuelva 0        
