@@ -17,7 +17,7 @@ public class SimulacionParteUno {
     protected Fel eventosFuturos;
     
     // tiempo que termina la simulacion
-    public final int tiempoFinalizacion = 
+    public final double tiempoFinalizacion = 
             60 * 24 * 7 * 4;
             //100;  //DEBUG
 
@@ -27,24 +27,24 @@ public class SimulacionParteUno {
         this.eventosFuturos = new Fel(this.tiempoFinalizacion);
         
         // se inserta entidad cero
-        this.eventosFuturos.add(new Arribo(0,new Avion()));
+        this.eventosFuturos.add(new Arribo(0.0,new Avion()));
         eventosFuturos.ordenarFEL();
     }
     
     public void inicializarProbabilidades() {
         
-        ArrayList<SimpleEntry<Integer, Double>> distribucionArribos = new ArrayList<SimpleEntry<Integer, Double>>();
-        distribucionArribos.add(new SimpleEntry<>(10, 0.35));
-        distribucionArribos.add(new SimpleEntry<>(15, 0.45));
-        distribucionArribos.add(new SimpleEntry<>(17, 0.2));
+        ArrayList<SimpleEntry<Double, Double>> distribucionArribos = new ArrayList<SimpleEntry<Double, Double>>();
+        distribucionArribos.add(new SimpleEntry<>(10.0, 0.35));
+        distribucionArribos.add(new SimpleEntry<>(15.0, 0.45));
+        distribucionArribos.add(new SimpleEntry<>(17.0, 0.2));
         
         Arribo.setValoresAzarosos(new ProbabilidadArbitraria(distribucionArribos));
         
-        ArrayList<SimpleEntry<Integer, Double>> distribucionSalidas = new ArrayList<SimpleEntry<Integer, Double>>();
-        distribucionSalidas.add(new SimpleEntry<>(8, 0.38));
-        distribucionSalidas.add(new SimpleEntry<>(10, 0.32));
-        distribucionSalidas.add(new SimpleEntry<>(13, 0.1));
-        distribucionSalidas.add(new SimpleEntry<>(15, 0.2));
+        ArrayList<SimpleEntry<Double, Double>> distribucionSalidas = new ArrayList<SimpleEntry<Double, Double>>();
+        distribucionSalidas.add(new SimpleEntry<>(8.0, 0.38));
+        distribucionSalidas.add(new SimpleEntry<>(10.0, 0.32));
+        distribucionSalidas.add(new SimpleEntry<>(13.0, 0.1));
+        distribucionSalidas.add(new SimpleEntry<>(15.0, 0.2));
         
         Salida.setValoresAzarosos(new ProbabilidadArbitraria(distribucionSalidas));
     }

@@ -15,10 +15,10 @@ public class ProbabilidadArbitrariaTest {
     private ProbabilidadArbitraria probabilidades;
     
     public ProbabilidadArbitrariaTest() {
-        ArrayList<SimpleEntry<Integer,Double>> vector = new ArrayList();
+        ArrayList<SimpleEntry<Double,Double>> vector = new ArrayList();
         
-        vector.add(new SimpleEntry<Integer,Double>(4,0.5));
-        vector.add(new SimpleEntry<Integer,Double>(6,0.5));
+        vector.add(new SimpleEntry<Double,Double>(4.0,0.5));
+        vector.add(new SimpleEntry<Double,Double>(6.0,0.5));
         
         this.probabilidades = new ProbabilidadArbitraria(vector);
     }

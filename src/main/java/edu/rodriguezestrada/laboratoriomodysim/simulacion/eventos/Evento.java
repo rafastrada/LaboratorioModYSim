@@ -1,7 +1,6 @@
 package edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos;
 
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.Avion;
-import edu.rodriguezestrada.laboratoriomodysim.simulacion.probabilidad.Probabilidad;
 import java.util.Comparator;
 
 /**
@@ -10,15 +9,15 @@ import java.util.Comparator;
  */
 public abstract class Evento {
     
-    protected int tiempo;
+    protected Double tiempo;
     protected Avion entidad;
 
-    public Evento(int tiempo, Avion entidad) {
+    public Evento(Double tiempo, Avion entidad) {
         this.tiempo = tiempo;
         this.entidad = entidad;
     }
 
-    public int getTiempo() {
+    public Double getTiempo() {
         return tiempo;
     }
 

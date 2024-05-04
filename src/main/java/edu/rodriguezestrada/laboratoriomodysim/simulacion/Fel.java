@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * @author gestrada
  */
 public class Fel extends ArrayList<Evento> {
-    public Fel(Integer tiempoFinalizacion) {
+    public Fel(Double tiempoFinalizacion) {
         super();
         
         // se inicia la fel con el evento 'Fin' incluido

@@ -21,11 +21,11 @@ public class Salida extends Evento {
         Salida.valoresAzarosos = valoresAzarosos;
     }
     
-    public static Integer calcularDuracion() {
+    public static Double calcularDuracion() {
         return Salida.valoresAzarosos.generarValor();
     }
     
-    public Salida(int tiempo, Avion entidad){
+    public Salida(Double tiempo, Avion entidad){
         super(tiempo, entidad);
     }
     

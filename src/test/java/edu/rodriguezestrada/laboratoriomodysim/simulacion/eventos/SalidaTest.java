@@ -5,9 +5,8 @@ import edu.rodriguezestrada.laboratoriomodysim.simulacion.Fel;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.probabilidad.ProbabilidadArbitraria;
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Vector;
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  *
@@ -16,11 +15,11 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SalidaTest {
     private Fel fel;
     public SalidaTest() {
-        this.fel = new Fel(100);
+        this.fel = new Fel(100.0);
         
-        ArrayList<AbstractMap.SimpleEntry<Integer,Double>> probabilidades = new ArrayList<>();
+        ArrayList<AbstractMap.SimpleEntry<Double,Double>> probabilidades = new ArrayList<>();
         
-        probabilidades.add(new AbstractMap.SimpleEntry<>(5,1.0));
+        probabilidades.add(new AbstractMap.SimpleEntry<>(5.0,1.0));
         
         Salida.setValoresAzarosos(new ProbabilidadArbitraria(probabilidades));
     }
@@ -28,7 +27,7 @@ public class SalidaTest {
     @Test
     public void testProximaSalida() {
         Avion avion1 = new Avion();
-        Salida anterior = new Salida(5, null);
+        Salida anterior = new Salida(5.0, null);
         int tiempoDeProximo = 10;
         
         anterior.procesarEvento(this.fel, avion1);

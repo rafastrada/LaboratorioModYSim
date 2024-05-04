@@ -13,7 +13,7 @@ public class Pista {
     private Avion atendiendo = null;
     
     // par clave,valor donde la clave es el avion y el valor el tiempo en el que entro a la cola
-    private ArrayDeque<SimpleEntry<Avion,Integer>> cola; 
+    private ArrayDeque<SimpleEntry<Avion,Double>> cola; 
     
     private Estadisticas estadisticasPista;
 
@@ -23,9 +23,9 @@ public class Pista {
     
     // tiempo en que empezo la ultima atencion
     // NOTA: la variable guarda tambien el tiempo en el que comiemza el tiempo libre del servidor
-    private int tiempoUltimaAtencion = 0;
+    private double tiempoUltimaAtencion = 0;
     
-    public ArrayDeque<SimpleEntry<Avion, Integer>> getCola() {
+    public ArrayDeque<SimpleEntry<Avion, Double>> getCola() {
         return cola;
     }
     
@@ -42,15 +42,15 @@ public class Pista {
         return Objects.nonNull(this.atendiendo);
     }
     
-    private Integer getTiempoUltimoArribo() {
+    private Double getTiempoUltimoArribo() {
         if (!this.cola.isEmpty()) return this.cola.peekLast().getValue();
-        else return 0;
+        else return 0.0;
     }
     
-    public void ingresoDeAvion(Avion ingresante, Integer reloj) throws Exception {
+    public void ingresoDeAvion(Avion ingresante, Double reloj) throws Exception {
         
         // si la cola esta vacia, peek devuelve null, hay que manejar para que devuelva 0        
-        int diferenciaUltimoSuceso = reloj - Integer.max(
+        double diferenciaUltimoSuceso = reloj - Double.max(
                 this.tiempoUltimaAtencion, 
                 this.getTiempoUltimoArribo());
         
@@ -77,9 +77,9 @@ public class Pista {
             throw new Exception("ERROR: Se ha ingresado un valor de reloj pasado.");
     }
     
-    public void salidaDeAvion(Avion saliente, Integer reloj) throws Exception {
+    public void salidaDeAvion(Avion saliente, Double reloj) throws Exception {
         // control para evitar que una salida se realice con reloj anterior al ultimo evento
-        if (reloj >= Integer.max(this.tiempoUltimaAtencion, 
+        if (reloj >= Double.max(this.tiempoUltimaAtencion, 
                                 this.getTiempoUltimoArribo())) {
         
 
@@ -91,7 +91,7 @@ public class Pista {
                 // si hay cola
                 if (!this.cola.isEmpty()) {
                     // variable temporal para la extraccion de la fila
-                    SimpleEntry<Avion,Integer> siguiente = this.cola.remove();
+                    SimpleEntry<Avion,Double> siguiente = this.cola.remove();
                     this.estadisticasPista.addTamanioCola(this.cola.size());    // al cambiar la cola, se registra
 
                     // el primero en espera pasa a ser atendido

@@ -20,11 +20,11 @@ public class Arribo extends Evento {
         Arribo.valoresAzarosos = valoresAzarosos;
     }
     
-    public static Integer calcularDuracion() {
+    public static Double calcularDuracion() {
         return Arribo.valoresAzarosos.generarValor();
     }
     
-    public Arribo(int tiempo, Avion entidad) {
+    public Arribo(Double tiempo, Avion entidad) {
         super(tiempo, entidad);
     }
 

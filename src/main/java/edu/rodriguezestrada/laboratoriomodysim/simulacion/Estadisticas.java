@@ -5,26 +5,26 @@ package edu.rodriguezestrada.laboratoriomodysim.simulacion;
  * @author rodri
  */
 public class Estadisticas {
-    private Integer avionesArribos = 0;
-    private Integer avionesAterrizajes = 0;
+    private Double avionesArribos = 0.0;
+    private Double avionesAterrizajes = 0.0;
     
-    private Integer transitoTotal = 0;
-    private Integer transitoMinimo = Integer.MAX_VALUE;
-    private Integer transitoMaximo = 0;
+    private Double transitoTotal = 0.0;
+    private Double transitoMinimo = Double.MAX_VALUE;
+    private Double transitoMaximo = 0.0;
     
-    private Integer esperaTotal = 0;
-    private Integer esperaCantidad = 0;
-    private Integer esperaMinimo = Integer.MAX_VALUE;
-    private Integer esperaMaximo = 0;
+    private Double esperaTotal = 0.0;
+    private Double esperaCantidad = 0.0;
+    private Double esperaMinimo = Double.MAX_VALUE;
+    private Double esperaMaximo = 0.0;
     
-    private Integer ocioTotal = 0;
-    private Integer ocioMinimo = Integer.MAX_VALUE;
-    private Integer ocioMaximo = 0;
+    private Double ocioTotal = 0.0;
+    private Double ocioMinimo = Double.MAX_VALUE;
+    private Double ocioMaximo = 0.0;
     
     private Integer colaTamanioMinimo = Integer.MAX_VALUE;
     private Integer colaTamanioMaximo = 0;
     
-    private Integer tiempoSimulacion = 0;
+    private Double tiempoSimulacion = 0.0;
 
     public Estadisticas() {
     }
@@ -37,24 +37,25 @@ public class Estadisticas {
         this.avionesAterrizajes++;
     }
     
-    public void addTransito(Integer tiempoTransito) {
+    public void addTransito(Double tiempoTransito) {
         this.transitoTotal += tiempoTransito;
-        this.transitoMinimo = Integer.min(this.transitoMinimo, tiempoTransito);
-        this.transitoMaximo = Integer.max(this.transitoMaximo, tiempoTransito);
+        this.transitoMinimo = Double.min(this.transitoMinimo, tiempoTransito);
+        this.transitoMaximo = Double.max(this.transitoMaximo, tiempoTransito);
     }
     
-    public void addEspera(Integer tiempoEspera) {
+    public void addEspera(Double tiempoEspera) {
         this.esperaCantidad++;
         this.esperaTotal += tiempoEspera;
-        this.esperaMinimo = Integer.min(this.esperaMinimo, tiempoEspera);
-        this.esperaMaximo = Integer.max(this.esperaMaximo, tiempoEspera);
+        if (tiempoEspera > 0.0)
+            this.esperaMinimo = Double.min(this.esperaMinimo, tiempoEspera);
+        this.esperaMaximo = Double.max(this.esperaMaximo, tiempoEspera);
     }
     
-    public void addOcio(Integer tiempoOcio) {
+    public void addOcio(Double tiempoOcio) {
         if (tiempoOcio > 0) {
             this.ocioTotal += tiempoOcio;
-            this.ocioMinimo = Integer.min(this.ocioMinimo, tiempoOcio);
-            this.ocioMaximo = Integer.max(this.ocioMaximo, tiempoOcio);
+            this.ocioMinimo = Double.min(this.ocioMinimo, tiempoOcio);
+            this.ocioMaximo = Double.max(this.ocioMaximo, tiempoOcio);
         }
     }
     
@@ -66,39 +67,39 @@ public class Estadisticas {
         }
     }
 
-    public Integer getAvionesArribos() {
+    public Double getAvionesArribos() {
         return avionesArribos;
     }
 
-    public Integer getAvionesAterrizajes() {
+    public Double getAvionesAterrizajes() {
         return avionesAterrizajes;
     }
 
-    public Integer getTransitoMinimo() {
+    public Double getTransitoMinimo() {
         return transitoMinimo;
     }
 
-    public Integer getTransitoMaximo() {
+    public Double getTransitoMaximo() {
         return transitoMaximo;
     }
 
-    public Integer getEsperaMinimo() {
-        return Integer.min(esperaMinimo, esperaMaximo);
+    public Double getEsperaMinimo() {
+        return Double.min(esperaMinimo, esperaMaximo);
     }
 
-    public Integer getEsperaMaximo() {
+    public Double getEsperaMaximo() {
         return esperaMaximo;
     }
 
-    public Integer getOcioTotalNominal() {
+    public Double getOcioTotalNominal() {
         return ocioTotal;
     }
 
-    public void setTiempoSimulacion(Integer tiempoSimulacion) {
+    public void setTiempoSimulacion(Double tiempoSimulacion) {
         this.tiempoSimulacion = tiempoSimulacion;
     }
     
-    public Double getOcioTotalProporcional(Integer tiempoSimulacion) {
+    public Double getOcioTotalProporcional(Double tiempoSimulacion) {
         return Double.valueOf(this.ocioTotal) /
                 Double.valueOf(tiempoSimulacion);
     }
@@ -108,11 +109,11 @@ public class Estadisticas {
                 Double.valueOf(this.tiempoSimulacion);
     }
     
-    public Integer getOcioMinimo() {
-        return Integer.min(ocioMinimo, ocioMaximo);
+    public Double getOcioMinimo() {
+        return Double.min(ocioMinimo, ocioMaximo);
     }
 
-    public Integer getOcioMaximo() {
+    public Double getOcioMaximo() {
         return ocioMaximo;
     }
 

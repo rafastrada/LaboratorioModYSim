@@ -8,7 +8,7 @@ import edu.rodriguezestrada.laboratoriomodysim.simulacion.Avion;
  */
 public class Fin extends Evento {
 
-    public Fin(int tiempoFinalizacion) {
+    public Fin(Double tiempoFinalizacion) {
         super(tiempoFinalizacion, null);
     }
     

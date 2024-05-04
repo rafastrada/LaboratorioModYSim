@@ -11,20 +11,20 @@ import java.util.Iterator;
  */
 public class ProbabilidadArbitraria implements Probabilidad {
     
-    private final ArrayList<SimpleEntry<Integer, Double>> densidad_probabilidad;
+    private final ArrayList<SimpleEntry<Double, Double>> densidad_probabilidad;
 
-    public ProbabilidadArbitraria(ArrayList<SimpleEntry<Integer, Double>> densidad_probabilidad) {
+    public ProbabilidadArbitraria(ArrayList<SimpleEntry<Double, Double>> densidad_probabilidad) {
         this.densidad_probabilidad = densidad_probabilidad;
     }
 
-    protected Integer obtenerValor(Double numeroAzaroso) {
+    protected Double obtenerValor(Double numeroAzaroso) {
         Double probabilidad_acumulada = 0.0;
-        Integer salida = null;
+        Double salida = null;
         
-        Iterator<SimpleEntry<Integer, Double>> iterador = this.densidad_probabilidad.iterator();
+        Iterator<SimpleEntry<Double, Double>> iterador = this.densidad_probabilidad.iterator();
         while (iterador.hasNext()) {
             // contenedor temporal
-            SimpleEntry<Integer, Double> campo = iterador.next();
+            SimpleEntry<Double, Double> campo = iterador.next();
             probabilidad_acumulada += campo.getValue(); 
             
             if (numeroAzaroso < probabilidad_acumulada) {
@@ -37,7 +37,7 @@ public class ProbabilidadArbitraria implements Probabilidad {
     }
 
     @Override
-    public Integer generarValor() {
+    public Double generarValor() {
         return this.obtenerValor(Math.random());
     }
 }

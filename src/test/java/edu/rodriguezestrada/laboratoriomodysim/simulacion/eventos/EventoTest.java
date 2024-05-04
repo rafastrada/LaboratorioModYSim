@@ -21,13 +21,13 @@ public class EventoTest {
         Evento.Comparador comparador = new Evento.Comparador();
         int expResult = -1;
         
-        int result = comparador.compare(new Arribo(1, null), new Arribo(2, null));
+        int result = comparador.compare(new Arribo(1.0, null), new Arribo(2.0, null));
         assertEquals(expResult, result, "Los arribos no se ordenan correctamente por tu reloj");
         
-        result = comparador.compare(new Salida(1, null), new Salida(2, null));
+        result = comparador.compare(new Salida(1.0, null), new Salida(2.0, null));
         assertEquals(expResult, result,"Las salidas no se ordenan correctamente por su reloj");
         
-        result = comparador.compare(new Salida(1, null), new Arribo(1, null));
+        result = comparador.compare(new Salida(1.0, null), new Arribo(1.0, null));
         assertEquals(expResult, result,"Los eventos no se ordenan correctamente por su clase");
         //fail("La comparacion no es correcta.");
     }
@@ -39,14 +39,14 @@ public class EventoTest {
         
         ArrayList<Evento> lista = new ArrayList<Evento>();
         
-        lista.add(new Fin(10));
-        lista.add(new Arribo(10,null));
-        lista.add(new Arribo(15,null));
-        lista.add(new Arribo(5,null));
-        lista.add(new Arribo(0,null));
-        lista.add(new Salida(10,null));
-        lista.add(new Salida(8,null));
-        lista.add(new Salida(0,null));
+        lista.add(new Fin(10.0));
+        lista.add(new Arribo(10.0,null));
+        lista.add(new Arribo(15.0,null));
+        lista.add(new Arribo(5.0,null));
+        lista.add(new Arribo(0.0,null));
+        lista.add(new Salida(10.0,null));
+        lista.add(new Salida(8.0,null));
+        lista.add(new Salida(0.0,null));
         
         // se ordena
         lista.sort(new Evento.Comparador());
@@ -67,10 +67,10 @@ public class EventoTest {
     public class EventoImpl extends Evento {
 
         public EventoImpl() {
-            super(0, null);
+            super(0.0, null);
         }
 
-        public EventoImpl(int tiempo) {
+        public EventoImpl(double tiempo) {
             super(tiempo, null);
         }
     }

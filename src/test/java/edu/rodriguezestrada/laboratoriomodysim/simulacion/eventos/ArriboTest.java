@@ -18,14 +18,14 @@ public class ArriboTest {
     Fel fel;
     
     public ArriboTest() {
-        this.fel = new Fel(100);
+        this.fel = new Fel(100.0);
     }
     
     @BeforeAll
     public static void prepararProbabilidad() {
-        ArrayList<AbstractMap.SimpleEntry<Integer, Double>> probabilidades = new ArrayList<AbstractMap.SimpleEntry<Integer,Double>>();
+        ArrayList<AbstractMap.SimpleEntry<Double, Double>> probabilidades = new ArrayList<AbstractMap.SimpleEntry<Double,Double>>();
         
-        probabilidades.add(new AbstractMap.SimpleEntry<Integer,Double>(5,1.0));
+        probabilidades.add(new AbstractMap.SimpleEntry<Double,Double>(5.0,1.0));
         
         Arribo.setValoresAzarosos(new ProbabilidadArbitraria(probabilidades));
         Salida.setValoresAzarosos(new ProbabilidadArbitraria(probabilidades));

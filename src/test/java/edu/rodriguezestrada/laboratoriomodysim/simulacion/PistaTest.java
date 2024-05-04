@@ -17,7 +17,7 @@ public class PistaTest {
     public void testEstadisticasIngresoSimple() {
         Pista servidor = new Pista();
         Avion avion = new Avion();
-        int t0 = 0, t1 = 10, tdelta = t1 - t0;
+        double t0 = 0, t1 = 10, tdelta = t1 - t0;
         
         try {
             servidor.ingresoDeAvion(avion, t0);
@@ -42,7 +42,7 @@ public class PistaTest {
         // test sin espera ni ocio
         Pista servidor = new Pista();
         ArrayList<Avion> aviones = new ArrayList<>();
-        int reloj = 0, cantidad = 10;
+        double reloj = 0, cantidad = 10;
         
         for (int i = 0; i < cantidad; i++) aviones.add(new Avion());
         
@@ -72,7 +72,7 @@ public class PistaTest {
     public void testEstadisticasEspera() {
         // test sin ocio
         Pista servidor = new Pista();
-        int reloj = 0;
+        double reloj = 0;
         Avion aviones[] = { new Avion(), new Avion(), new Avion(), new Avion()};
         
         try {
@@ -118,7 +118,7 @@ public class PistaTest {
     public void testEstadisticasOcio() {
         // test de ocio, sin espera
         Pista servidor = new Pista();
-        int reloj = 0;
+        double reloj = 0;
         Avion aviones[] = { new Avion(), new Avion(), new Avion()};
         
         try {
