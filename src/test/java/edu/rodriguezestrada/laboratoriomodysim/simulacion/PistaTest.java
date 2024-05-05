@@ -1,5 +1,7 @@
 package edu.rodriguezestrada.laboratoriomodysim.simulacion;
 
+import edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos.Arribo;
+import edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos.Salida;
 import java.util.ArrayList;
 import java.util.Iterator;
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,8 +22,8 @@ public class PistaTest {
         double t0 = 0, t1 = 10, tdelta = t1 - t0;
         
         try {
-            servidor.ingresoDeAvion(avion, t0);
-            servidor.salidaDeAvion(avion, t1);
+            servidor.ingresoDeAvion(new Arribo(t0, avion));
+            servidor.salidaDeAvion(new Salida(t1, avion));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -50,9 +52,9 @@ public class PistaTest {
         try {
             while (iterador.hasNext()) {
                 Avion avion = iterador.next();
-                servidor.ingresoDeAvion(avion, reloj);
+                servidor.ingresoDeAvion(new Arribo(reloj, avion));
                 reloj += 10;
-                servidor.salidaDeAvion(avion, reloj);
+                servidor.salidaDeAvion(new Salida(reloj, avion));
             }
         } catch(Exception e) {
             System.out.println(e.getMessage());
@@ -76,21 +78,21 @@ public class PistaTest {
         Avion aviones[] = { new Avion(), new Avion(), new Avion(), new Avion()};
         
         try {
-            servidor.ingresoDeAvion(aviones[0], reloj);
-            reloj += 5;
-            servidor.ingresoDeAvion(aviones[1], reloj);
-            reloj += 10;
-            servidor.salidaDeAvion(aviones[0], reloj);
-            reloj += 5;
-            servidor.ingresoDeAvion(aviones[2], reloj);
-            reloj += 5;
-            servidor.ingresoDeAvion(aviones[3], reloj);
-            reloj += 5;
-            servidor.salidaDeAvion(aviones[1], reloj);
-            reloj += 5;
-            servidor.salidaDeAvion(aviones[2], reloj);
-            reloj += 5;
-            servidor.salidaDeAvion(aviones[3], reloj);
+//            servidor.ingresoDeAvion(aviones[0], reloj);
+//            reloj += 5;
+//            servidor.ingresoDeAvion(aviones[1], reloj);
+//            reloj += 10;
+//            servidor.salidaDeAvion(aviones[0], reloj);
+//            reloj += 5;
+//            servidor.ingresoDeAvion(aviones[2], reloj);
+//            reloj += 5;
+//            servidor.ingresoDeAvion(aviones[3], reloj);
+//            reloj += 5;
+//            servidor.salidaDeAvion(aviones[1], reloj);
+//            reloj += 5;
+//            servidor.salidaDeAvion(aviones[2], reloj);
+//            reloj += 5;
+//            servidor.salidaDeAvion(aviones[3], reloj);
         } catch(Exception e) {
             System.out.println(e.getMessage());
         }
@@ -122,17 +124,17 @@ public class PistaTest {
         Avion aviones[] = { new Avion(), new Avion(), new Avion()};
         
         try {
-            servidor.ingresoDeAvion(aviones[0], reloj);
-            reloj += 10;
-            servidor.salidaDeAvion(aviones[0], reloj);
-            reloj += 5;
-            servidor.ingresoDeAvion(aviones[1], reloj);
-            reloj += 10;
-            servidor.salidaDeAvion(aviones[1], reloj);
-            reloj += 5;
-            servidor.ingresoDeAvion(aviones[2], reloj);
-            reloj += 10;
-            servidor.salidaDeAvion(aviones[2], reloj);
+//            servidor.ingresoDeAvion(aviones[0], reloj);
+//            reloj += 10;
+//            servidor.salidaDeAvion(aviones[0], reloj);
+//            reloj += 5;
+//            servidor.ingresoDeAvion(aviones[1], reloj);
+//            reloj += 10;
+//            servidor.salidaDeAvion(aviones[1], reloj);
+//            reloj += 5;
+//            servidor.ingresoDeAvion(aviones[2], reloj);
+//            reloj += 10;
+//            servidor.salidaDeAvion(aviones[2], reloj);
         } catch(Exception e) {
             System.out.println(e.getMessage());
         }

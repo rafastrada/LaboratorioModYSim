@@ -76,9 +76,7 @@ public class SimulacionParteUno {
                 try {
                     Arribo.class.cast(eventoInminente)
                             .procesarEvento(this.eventosFuturos, !servidor.isOcupado());
-                    servidor.ingresoDeAvion(
-                            eventoInminente.getEntidad(),
-                            eventoInminente.getTiempo());
+                    servidor.ingresoDeAvion((Arribo) eventoInminente);
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
@@ -87,9 +85,7 @@ public class SimulacionParteUno {
                 // -----------------------------------------------------------------------------
                 if (Salida.class.isInstance(eventoInminente)) {
                     try {
-                        servidor.salidaDeAvion(
-                                eventoInminente.getEntidad(),
-                                eventoInminente.getTiempo());
+                        servidor.salidaDeAvion((Salida) eventoInminente);
                         Salida.class.cast(eventoInminente)
                                 .procesarEvento(this.eventosFuturos, servidor.getAtendiendo());
                     } catch (Exception e) {

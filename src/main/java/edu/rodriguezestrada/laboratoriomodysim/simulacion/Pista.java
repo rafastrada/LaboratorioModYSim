@@ -1,5 +1,7 @@
 package edu.rodriguezestrada.laboratoriomodysim.simulacion;
 
+import edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos.Arribo;
+import edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos.Salida;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayDeque;
 import java.util.Objects;
@@ -13,7 +15,7 @@ import java.util.Objects;
  *
  * @author gestrada
  */
-public class Pista {
+public class Pista implements Servidor {
     
     private Avion atendiendo = null;
     
@@ -43,10 +45,20 @@ public class Pista {
         this.estadisticasPista = new Estadisticas();
     }
 
+    /**
+     * Devuelve si el estado de atención de la pista es ocupado o no.
+     * @return Estado de ocupación de la pista.
+     */
     public boolean isOcupado() {
         return Objects.nonNull(this.atendiendo);
     }
     
+    /**
+     * Devuelve el momento (reloj) en que ingresó a la cola el último avion.
+     * Si la cola está vacia, entonces devuelve cero.
+     * 
+     * @return Momento de último arribo en espera.
+     */
     private Double getTiempoUltimoArribo() {
         if (!this.cola.isEmpty()) return this.cola.peekLast().getValue();
         else return 0.0;
@@ -54,15 +66,16 @@ public class Pista {
     
     /**
      * Procesa el arribo de un Avion.
+     * NOTA: Pista no se encarga de procesar proximos eventos ni manipular la FEL, solo extrae la Entidad y el Reloj del objeto Arribo.
      * 
-     * @param ingresante Avion que arriba a la pista
-     * @param reloj Momento (clock) en el que llega la entidad
+     * @param ingresante Arribo a la pista de entidad Avion
      * @throws Exception Se produce cuando se ingresa un valor de reloj que es menor que uno ingresado previamente
      */
-    public void ingresoDeAvion(Avion ingresante, Double reloj) throws Exception {
+    @Override
+    public void ingresoDeAvion(Arribo ingresante) throws Exception {
         
         // si la cola esta vacia, peek devuelve null, hay que manejar para que devuelva 0        
-        double diferenciaUltimoSuceso = reloj - Double.max(
+        double diferenciaUltimoSuceso = ingresante.getTiempo() - Double.max(
                 this.tiempoUltimaAtencion, 
                 this.getTiempoUltimoArribo());
         
@@ -74,13 +87,13 @@ public class Pista {
                 // se registra el tiempo de ocio
                 this.estadisticasPista.addOcio(diferenciaUltimoSuceso);
                 
-                this.atendiendo = ingresante;
-                this.tiempoUltimaAtencion = reloj;
+                this.atendiendo = ingresante.getEntidad();
+                this.tiempoUltimaAtencion = ingresante.getTiempo();
                 this.estadisticasPista.addAvionesAterrizajes();
             }
             // si el servidor esta ocupado, la entidad pasa a la cola de espera
             else {
-                this.cola.add(new SimpleEntry<>(ingresante,reloj));
+                this.cola.add(new SimpleEntry<>(ingresante.getEntidad(),ingresante.getTiempo()));
                 this.estadisticasPista.addTamanioCola(this.cola.size());    // al cambiar la cola, se mide
             }
 
@@ -89,16 +102,24 @@ public class Pista {
             throw new Exception("ERROR: Se ha ingresado un valor de reloj pasado.");
     }
     
-    public void salidaDeAvion(Avion saliente, Double reloj) throws Exception {
+    /**
+     * Procesa la salida de un Avion.
+     * NOTA: Pista no se encarga de procesar proximos eventos ni manipular la FEL, solo extrae la Entidad y el Reloj del objeto Salida.
+     * 
+     * @param saliente
+     * @throws Exception 
+     */
+    @Override
+    public void salidaDeAvion(Salida saliente) throws Exception {
         // control para evitar que una salida se realice con reloj anterior al ultimo evento
-        if (reloj >= Double.max(this.tiempoUltimaAtencion, 
+        if (saliente.getTiempo() >= Double.max(this.tiempoUltimaAtencion, 
                                 this.getTiempoUltimoArribo())) {
         
 
             // si el avion pasado por parametro es el atendido, este sale
-            if (this.atendiendo.equals(saliente)) {
+            if (this.atendiendo.equals(saliente.getEntidad())) {
                 // tiempo que estuvo en el servidor el avion saliente
-                this.estadisticasPista.addTransito(reloj - this.tiempoUltimaAtencion);
+                this.estadisticasPista.addTransito(saliente.getTiempo() - this.tiempoUltimaAtencion);
 
                 // si hay cola
                 if (!this.cola.isEmpty()) {
@@ -110,11 +131,11 @@ public class Pista {
                     this.atendiendo = siguiente.getKey();
 
                     // se registra su tiempo de espera
-                    this.estadisticasPista.addEspera(reloj - siguiente.getValue());
+                    this.estadisticasPista.addEspera(saliente.getTiempo() - siguiente.getValue());
                     this.estadisticasPista.addAvionesAterrizajes();
                 }
                 else this.atendiendo = null;
-                this.tiempoUltimaAtencion = reloj;
+                this.tiempoUltimaAtencion = saliente.getTiempo();
             } else {
                 throw new Exception("ERROR: La entidad indicada no está siendo atendida.");
             }

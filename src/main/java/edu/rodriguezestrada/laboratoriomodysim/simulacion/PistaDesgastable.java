@@ -1,5 +1,6 @@
 package edu.rodriguezestrada.laboratoriomodysim.simulacion;
 
+import edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos.Arribo;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.probabilidad.Probabilidad;
 
 /**
@@ -42,14 +43,15 @@ public class PistaDesgastable extends Pista {
     }
 
     /**
-     * Procesa la llegada de un Avion en la pista. 
-     * @param ingresante Avion que arriba a la pista.
-     * @param reloj Momento (clock) en el que llega la entidad a la pista.
-     * @throws Exception Se produce un error si el valor de reloj ingresado es menor a uno previamente utilizado.
+     * Procesa el arribo de un Avion.
+     * NOTA: Pista no se encarga de procesar proximos eventos ni manipular la FEL, solo extrae la Entidad y el Reloj del objeto Arribo.
+     * 
+     * @param ingresante Arribo a la pista de entidad Avion
+     * @throws Exception Se produce cuando se ingresa un valor de reloj que es menor que uno ingresado previamente
      */
     @Override
-    public void ingresoDeAvion(Avion ingresante, Double reloj) throws Exception {
-        super.ingresoDeAvion(ingresante, reloj);
+    public void ingresoDeAvion(Arribo ingresante) throws Exception {
+        super.ingresoDeAvion(ingresante);
         
         this.desgaste -= PistaDesgastable.distribucionValoresDesgaste.generarValor();
     }
