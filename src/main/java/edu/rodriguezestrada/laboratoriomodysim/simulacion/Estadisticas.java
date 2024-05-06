@@ -5,15 +5,15 @@ package edu.rodriguezestrada.laboratoriomodysim.simulacion;
  * @author rodri
  */
 public class Estadisticas {
-    private Double avionesArribos = 0.0;
-    private Double avionesAterrizajes = 0.0;
+    private Integer avionesArribos = 0;
+    private Integer avionesAterrizajes = 0;
     
     private Double transitoTotal = 0.0;
     private Double transitoMinimo = Double.MAX_VALUE;
     private Double transitoMaximo = 0.0;
     
     private Double esperaTotal = 0.0;
-    private Double esperaCantidad = 0.0;
+    private Integer esperaCantidad = 0;
     private Double esperaMinimo = Double.MAX_VALUE;
     private Double esperaMaximo = 0.0;
     
@@ -27,6 +27,19 @@ public class Estadisticas {
     private Double tiempoSimulacion = 0.0;
 
     public Estadisticas() {
+    }
+    
+    /**
+     * Función que devuelve un flotante como un String con la cantidad de decimales pasado por parámetro.
+     * Tiene por finalidad acortar las sentencias de impresión.
+     * cDR = cadenaDecimalesReducidos
+     * @param numero Flotante a transformar en String.
+     * @param cantidadDecimales Cantidad de decimales que se imprimirá de 'numero'.
+     * @return Cadena que representa el flotante truncado.
+     */
+    public static String cDR(Double numero, Integer cantidadDecimales) {
+        return String.format("%.".concat(cantidadDecimales.toString()).concat("f"),
+                numero);
     }
     
     public void addAvionesArribos() {
@@ -52,7 +65,7 @@ public class Estadisticas {
     }
     
     public void addOcio(Double tiempoOcio) {
-        if (tiempoOcio > 0) {
+        if (tiempoOcio > 0.0) {
             this.ocioTotal += tiempoOcio;
             this.ocioMinimo = Double.min(this.ocioMinimo, tiempoOcio);
             this.ocioMaximo = Double.max(this.ocioMaximo, tiempoOcio);
@@ -67,16 +80,17 @@ public class Estadisticas {
         }
     }
 
-    public Double getAvionesArribos() {
+    public Integer getAvionesArribos() {
         return avionesArribos;
     }
 
-    public Double getAvionesAterrizajes() {
+    public Integer getAvionesAterrizajes() {
         return avionesAterrizajes;
     }
 
     public Double getTransitoMinimo() {
-        return transitoMinimo;
+        if (this.transitoTotal != 0) return transitoMinimo;
+        else return 0.0;
     }
 
     public Double getTransitoMaximo() {
@@ -105,16 +119,22 @@ public class Estadisticas {
     }
 
     public Double getOcioTotalProporcional() {
-        return Double.valueOf(this.ocioTotal) /
+        if (this.ocioTotal != 0)
+            return Double.valueOf(this.ocioTotal) /
                 Double.valueOf(this.tiempoSimulacion);
+        else return 1.0;
     }
     
     public Double getOcioMinimo() {
-        return Double.min(ocioMinimo, ocioMaximo);
+        if (this.ocioTotal != 0)
+            return Double.min(ocioMinimo, ocioMaximo);
+        else return this.tiempoSimulacion;
     }
 
     public Double getOcioMaximo() {
-        return ocioMaximo;
+        if (this.ocioTotal != 0)
+            return ocioMaximo;
+        else return this.tiempoSimulacion;
     }
 
     public Integer getColaTamanioMinimo() {
@@ -126,13 +146,37 @@ public class Estadisticas {
     }
     
     public Double getTransitoMedio() {
-        return Double.valueOf(this.transitoTotal) /
+        if (this.avionesAterrizajes != 0)
+            return Double.valueOf(this.transitoTotal) /
                 Double.valueOf(this.avionesAterrizajes);
+        else return 0.0;
     }
     
     public Double getEsperaMedio() {
-        return Double.valueOf(this.esperaTotal) /
+        if (this.esperaCantidad != 0)
+            return Double.valueOf(this.esperaTotal) /
                 Double.valueOf(this.esperaCantidad);
+        else return 0.0;
+    }
+
+    
+    
+    @Override
+    public String toString() {
+        return "Estadisticas{" + 
+                "\n\tCantidad de Aeronaves aterrizadas: " + this.getAvionesAterrizajes() +
+                "\n\tCantidad de Aeronaves arribadas: " + this.getAvionesArribos() +
+                "\n\tTiempo en sistema:" +
+                "\n\tMedio:\t" + this.getTransitoMedio() + "\tMáximo:\t" + this.getTransitoMaximo() + "\tMínimo:\t" + this.getTransitoMinimo() +
+                "\n\tTiempo de espera:" +
+                "\n\tMedio:\t" + this.getEsperaMedio() + "\tMáximo:\t" + this.getEsperaMaximo() + "\tMínimo:\t" + this.getEsperaMinimo() +
+                "\n\tTiempo de ocio:" +
+                "\n\tTotal:\t" + Estadisticas.cDR(this.getOcioTotalProporcional()*100, 2) + "%" +
+                "\tMáximo:\t" + this.getOcioMaximo() +
+                "\tMínimo:\t" + this.getOcioMinimo() +
+                "\n\tTamaño de Cola de Espera:" +
+                "\n\tMáximo:\t" + this.getColaTamanioMaximo() + "\tMínimo:\t" + this.getColaTamanioMinimo() +
+                '}';
     }
     
 }
