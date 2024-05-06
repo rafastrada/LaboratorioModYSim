@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 
 /**
- *
+ * Distribución de valores Empírica Discreta.
  * @author gestrada
  */
 public class ProbabilidadEmpirica implements Probabilidad {
