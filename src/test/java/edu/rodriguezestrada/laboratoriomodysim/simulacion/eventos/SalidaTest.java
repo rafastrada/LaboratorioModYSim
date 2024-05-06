@@ -2,7 +2,7 @@ package edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos;
 
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.Avion;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.Fel;
-import edu.rodriguezestrada.laboratoriomodysim.simulacion.probabilidad.ProbabilidadArbitraria;
+import edu.rodriguezestrada.laboratoriomodysim.simulacion.probabilidad.ProbabilidadEmpirica;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,7 +21,7 @@ public class SalidaTest {
         
         probabilidades.add(new AbstractMap.SimpleEntry<>(5.0,1.0));
         
-        Salida.setValoresAzarosos(new ProbabilidadArbitraria(probabilidades));
+        Salida.setValoresAzarosos(new ProbabilidadEmpirica(probabilidades));
     }
 
     @Test

@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
  */
 public class ProbabilidadArbitrariaTest {
     
-    private ProbabilidadArbitraria probabilidades;
+    private ProbabilidadEmpirica probabilidades;
     
     public ProbabilidadArbitrariaTest() {
         ArrayList<SimpleEntry<Double,Double>> vector = new ArrayList();
@@ -20,7 +20,7 @@ public class ProbabilidadArbitrariaTest {
         vector.add(new SimpleEntry<Double,Double>(4.0,0.5));
         vector.add(new SimpleEntry<Double,Double>(6.0,0.5));
         
-        this.probabilidades = new ProbabilidadArbitraria(vector);
+        this.probabilidades = new ProbabilidadEmpirica(vector);
     }
 
     @Test

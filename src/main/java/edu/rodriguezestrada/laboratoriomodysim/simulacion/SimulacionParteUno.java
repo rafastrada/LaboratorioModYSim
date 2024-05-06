@@ -4,7 +4,7 @@ import edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos.Arribo;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos.Evento;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos.Fin;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos.Salida;
-import edu.rodriguezestrada.laboratoriomodysim.simulacion.probabilidad.ProbabilidadArbitraria;
+import edu.rodriguezestrada.laboratoriomodysim.simulacion.probabilidad.ProbabilidadEmpirica;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 
@@ -38,7 +38,7 @@ public class SimulacionParteUno {
         distribucionArribos.add(new SimpleEntry<>(15.0, 0.45));
         distribucionArribos.add(new SimpleEntry<>(17.0, 0.2));
         
-        Arribo.setValoresAzarosos(new ProbabilidadArbitraria(distribucionArribos));
+        Arribo.setValoresAzarosos(new ProbabilidadEmpirica(distribucionArribos));
         
         ArrayList<SimpleEntry<Double, Double>> distribucionSalidas = new ArrayList<SimpleEntry<Double, Double>>();
         distribucionSalidas.add(new SimpleEntry<>(8.0, 0.38));
@@ -46,7 +46,7 @@ public class SimulacionParteUno {
         distribucionSalidas.add(new SimpleEntry<>(13.0, 0.1));
         distribucionSalidas.add(new SimpleEntry<>(15.0, 0.2));
         
-        Salida.setValoresAzarosos(new ProbabilidadArbitraria(distribucionSalidas));
+        Salida.setValoresAzarosos(new ProbabilidadEmpirica(distribucionSalidas));
     }
 
     /**

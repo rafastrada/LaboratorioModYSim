@@ -9,11 +9,11 @@ import java.util.Iterator;
  *
  * @author gestrada
  */
-public class ProbabilidadArbitraria implements Probabilidad {
+public class ProbabilidadEmpirica implements Probabilidad {
     
     private final ArrayList<SimpleEntry<Double, Double>> densidad_probabilidad;
 
-    public ProbabilidadArbitraria(ArrayList<SimpleEntry<Double, Double>> densidad_probabilidad) {
+    public ProbabilidadEmpirica(ArrayList<SimpleEntry<Double, Double>> densidad_probabilidad) {
         this.densidad_probabilidad = densidad_probabilidad;
     }
 

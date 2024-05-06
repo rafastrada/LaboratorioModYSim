@@ -1,7 +1,7 @@
 package edu.rodriguezestrada.laboratoriomodysim.simulacion;
 
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos.Arribo;
-import edu.rodriguezestrada.laboratoriomodysim.simulacion.probabilidad.ProbabilidadArbitraria;
+import edu.rodriguezestrada.laboratoriomodysim.simulacion.probabilidad.ProbabilidadEmpirica;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +18,7 @@ public class PistaDesgastableTest {
     public PistaDesgastableTest() {
         pista = new PistaDesgastable();
         
-        pista.setDistribucionValoresDesgaste(
-                new ProbabilidadArbitraria(new ArrayList<>(
+        pista.setDistribucionValoresDesgaste(new ProbabilidadEmpirica(new ArrayList<>(
                List.of(new AbstractMap.SimpleEntry<Double,Double>(10.0,1.0))
                 ))
         );

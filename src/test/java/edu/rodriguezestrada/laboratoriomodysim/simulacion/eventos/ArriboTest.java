@@ -2,7 +2,7 @@ package edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos;
 
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.Avion;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.Fel;
-import edu.rodriguezestrada.laboratoriomodysim.simulacion.probabilidad.ProbabilidadArbitraria;
+import edu.rodriguezestrada.laboratoriomodysim.simulacion.probabilidad.ProbabilidadEmpirica;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -27,8 +27,8 @@ public class ArriboTest {
         
         probabilidades.add(new AbstractMap.SimpleEntry<Double,Double>(5.0,1.0));
         
-        Arribo.setValoresAzarosos(new ProbabilidadArbitraria(probabilidades));
-        Salida.setValoresAzarosos(new ProbabilidadArbitraria(probabilidades));
+        Arribo.setValoresAzarosos(new ProbabilidadEmpirica(probabilidades));
+        Salida.setValoresAzarosos(new ProbabilidadEmpirica(probabilidades));
     }
 
     @Test
