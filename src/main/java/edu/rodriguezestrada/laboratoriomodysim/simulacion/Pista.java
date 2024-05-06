@@ -24,6 +24,11 @@ public class Pista implements Servidor {
     
     private Estadisticas estadisticasPista;
 
+    /**
+     * Devuelve las estadísticas de la simulación de la pista.
+     * Importante: llamar a cierreOcio al finalizar la simulación para incluir el tiempo de ocio entre que la pista queda libre y el fin de la simulación.
+     * @return 
+     */
     public Estadisticas getEstadisticasPista() {
         return estadisticasPista;
     }
@@ -62,6 +67,15 @@ public class Pista implements Servidor {
     private Double getTiempoUltimoArribo() {
         if (!this.cola.isEmpty()) return this.cola.peekLast().getValue();
         else return 0.0;
+    }
+    
+    /**
+     * Llamar cuando termine la simulación para incluir en las estadísticas el tiempo de ocio de la pista cuando ésta se libera y termina la simulación.
+     * @param reloj Momento (reloj) de fin de la simulación.
+     */
+    public void cierreOcio(Double reloj) {
+        if (!this.isOcupado())
+            estadisticasPista.addOcio(reloj - tiempoUltimaAtencion);
     }
     
     /**

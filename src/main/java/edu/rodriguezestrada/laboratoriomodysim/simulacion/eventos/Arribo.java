@@ -28,6 +28,13 @@ public class Arribo extends Evento {
         super(tiempo, entidad);
     }
 
+    /**
+     * Procesa el evento Arribo, generando el proximo evento.
+     * Si el servidor a donde ingresa la entidad no está atendiendo, entonces tiene que generar su Salida también.
+     * Para esto se indica por parámetro si el servidor esta libre previo a la inserción.
+     * @param eventosFuturos FEL.
+     * @param servidorLibre Si se encuentra libre el servidor a donde pasa la entidad.
+     */
     public void procesarEvento(Fel eventosFuturos, boolean servidorLibre) {
         // genera proximo evento y se introduce en la FEL
         eventosFuturos.add(new Arribo(
