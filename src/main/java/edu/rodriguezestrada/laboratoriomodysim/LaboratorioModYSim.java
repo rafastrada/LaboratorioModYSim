@@ -13,7 +13,10 @@ import edu.rodriguezestrada.laboratoriomodysim.simulacion.SimulacionParteUno;
 public class LaboratorioModYSim {
 
     public static void main(String[] args) {
-        SimulacionParteUno simulacion = new SimulacionParteUno();
+//        SimulacionParteUno simulacion = new SimulacionParteUno();
+//        simulacion.iniciarSimulacion();
+
+        SimulacionParteDos simulacion = new SimulacionParteDos(4);
         simulacion.iniciarSimulacion();
     }
 }
