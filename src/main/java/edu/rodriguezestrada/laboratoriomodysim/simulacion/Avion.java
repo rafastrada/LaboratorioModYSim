@@ -11,6 +11,14 @@ public class Avion {
     public static int getCantidadEntidades() {
         return cantidadEntidades;
     }
+    
+    /**
+     * Vuelve el contador de entidades a cero.
+     * Util para tests unitarios.
+     */
+    public static void resetCantidadEntidades() {
+        Avion.cantidadEntidades = 0;
+    }
 
     private final int numeroEntidad;
 

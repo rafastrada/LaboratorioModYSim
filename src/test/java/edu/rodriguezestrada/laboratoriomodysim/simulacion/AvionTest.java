@@ -1,7 +1,9 @@
 package edu.rodriguezestrada.laboratoriomodysim.simulacion;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeAll;
 
 /**
  *
@@ -12,6 +14,12 @@ public class AvionTest {
     public AvionTest() {
     }
 
+    @BeforeAll
+    public static void inicializacion() {
+        // vuelve a cero la cantidad de aviones contados por la clase
+        Avion.resetCantidadEntidades();
+    }
+    
     @Test
     public void testEquals() {
         Avion avion1 = new Avion(), avion2 = new Avion();
@@ -25,4 +33,9 @@ public class AvionTest {
         assertEquals(cantidadAviones, Avion.getCantidadEntidades(), "La cantidad de aviones instanciados no coincide con lo indicado por la clase");
     }
     
+    @AfterAll
+    public static void limpieza() {
+        // vuelve la cantidad de aviones contados por la clase a cero
+        Avion.resetCantidadEntidades();
+    }
 }
