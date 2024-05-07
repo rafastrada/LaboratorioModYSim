@@ -44,7 +44,7 @@ public class PistaTest {
         // test sin espera ni ocio
         Pista servidor = new Pista();
         ArrayList<Avion> aviones = new ArrayList<>();
-        double reloj = 0, cantidad = 10;
+        double reloj = 0; int cantidad = 10;
         
         for (int i = 0; i < cantidad; i++) aviones.add(new Avion());
         
@@ -78,21 +78,21 @@ public class PistaTest {
         Avion aviones[] = { new Avion(), new Avion(), new Avion(), new Avion()};
         
         try {
-//            servidor.ingresoDeAvion(aviones[0], reloj);
-//            reloj += 5;
-//            servidor.ingresoDeAvion(aviones[1], reloj);
-//            reloj += 10;
-//            servidor.salidaDeAvion(aviones[0], reloj);
-//            reloj += 5;
-//            servidor.ingresoDeAvion(aviones[2], reloj);
-//            reloj += 5;
-//            servidor.ingresoDeAvion(aviones[3], reloj);
-//            reloj += 5;
-//            servidor.salidaDeAvion(aviones[1], reloj);
-//            reloj += 5;
-//            servidor.salidaDeAvion(aviones[2], reloj);
-//            reloj += 5;
-//            servidor.salidaDeAvion(aviones[3], reloj);
+            servidor.ingresoDeAvion(new Arribo(reloj, aviones[0]));
+            reloj += 5;
+            servidor.ingresoDeAvion(new Arribo(reloj, aviones[1]));
+            reloj += 10;
+            servidor.salidaDeAvion(new Salida(reloj, aviones[0]));
+            reloj += 5;
+            servidor.ingresoDeAvion(new Arribo(reloj, aviones[2]));
+            reloj += 5;
+            servidor.ingresoDeAvion(new Arribo(reloj, aviones[3]));
+            reloj += 5;
+            servidor.salidaDeAvion(new Salida(reloj, aviones[1]));
+            reloj += 5;
+            servidor.salidaDeAvion(new Salida(reloj, aviones[2]));
+            reloj += 5;
+            servidor.salidaDeAvion(new Salida(reloj, aviones[3]));
         } catch(Exception e) {
             System.out.println(e.getMessage());
         }
@@ -109,8 +109,8 @@ public class PistaTest {
         
         System.out.println(d.getEsperaMedio());
         assertEquals(10.0, d.getEsperaMedio());
-        assertEquals(10, d.getEsperaMaximo());
-        assertEquals(10, d.getEsperaMinimo());
+        assertEquals(10.0, d.getEsperaMaximo());
+        assertEquals(10.0, d.getEsperaMinimo());
         
         assertEquals(2, d.getColaTamanioMaximo());
         assertEquals(1, d.getColaTamanioMinimo());
@@ -124,17 +124,17 @@ public class PistaTest {
         Avion aviones[] = { new Avion(), new Avion(), new Avion()};
         
         try {
-//            servidor.ingresoDeAvion(aviones[0], reloj);
-//            reloj += 10;
-//            servidor.salidaDeAvion(aviones[0], reloj);
-//            reloj += 5;
-//            servidor.ingresoDeAvion(aviones[1], reloj);
-//            reloj += 10;
-//            servidor.salidaDeAvion(aviones[1], reloj);
-//            reloj += 5;
-//            servidor.ingresoDeAvion(aviones[2], reloj);
-//            reloj += 10;
-//            servidor.salidaDeAvion(aviones[2], reloj);
+            servidor.ingresoDeAvion(new Arribo(reloj, aviones[0]));
+            reloj += 10;
+            servidor.salidaDeAvion(new Salida(reloj, aviones[0]));
+            reloj += 5;
+            servidor.ingresoDeAvion(new Arribo(reloj, aviones[1]));
+            reloj += 10;
+            servidor.salidaDeAvion(new Salida(reloj, aviones[1]));
+            reloj += 5;
+            servidor.ingresoDeAvion(new Arribo(reloj, aviones[2]));
+            reloj += 10;
+            servidor.salidaDeAvion(new Salida(reloj, aviones[2]));
         } catch(Exception e) {
             System.out.println(e.getMessage());
         }

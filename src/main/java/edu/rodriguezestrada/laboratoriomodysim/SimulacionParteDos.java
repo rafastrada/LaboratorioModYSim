@@ -205,16 +205,26 @@ public class SimulacionParteDos {
             eventoInminente = this.eventosFuturos.remove(0);
         }
         
+        // cierre de pistas, permite calcular el ocio desde la ultima salida hasta el evento de fin
         servidorMultiple.forEach(pista -> pista.cierreOcio(tiempoFinalizacion));
+        // inserta en los objetos 'estadisticas' de cada pista el tiempo de simulacion, que permite
+        // calcular el ocio como porcentajes
         servidorMultiple.forEach(pista -> pista.getEstadisticasPista().setTiempoSimulacion(tiempoFinalizacion));
         
-        // imprime resultados
-        servidorMultiple.forEach(pista -> System.out.println(pista.getEstadisticasPista().toString()));
         
-        // extrae las estadisticas de todas las pistas
+        // imprime estadisticas de todas las pistas
+        // DEBUG
+        for (Pista pista : servidorMultiple) {
+            System.out.println("Pista #" + (servidorMultiple.indexOf(pista) + 1) );
+            System.out.println(pista.getEstadisticasPista().toString());
+        }
+        System.out.println("\n\n\n");
+        
+        // extrae las estadisticas de todas las pistas en una lista
         // estdGen = estadisticasGenerales
         List<Estadisticas> estdGen = 
                 servidorMultiple.stream().map(pista -> pista.getEstadisticasPista()).toList();
+        
         
         System.out.println("-------------- ESTADISTICAS ----------------");
         System.out.println(" ");

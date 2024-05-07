@@ -46,12 +46,12 @@ public abstract class Evento {
                 salida = -1;
             }
             else {
-                if (evento1.getTiempo() == evento2.getTiempo() &&
-                    (evento1.getClass().getSimpleName().equals("Salida")
+                if (evento1.getTiempo().equals(evento2.getTiempo()) &&
+                    (Salida.class.isInstance(evento1)
                             ||
                         // ubica el evento Fin antes que los Arribos con tiempo similar
-                            (evento1.getClass().getSimpleName().equals("Fin")
-                                && evento2.getClass().getSimpleName().equals("Arribo"))))
+                            (Fin.class.isInstance(evento1)
+                                && Arribo.class.isInstance(evento2))))
                         salida = -1;
                 }
 

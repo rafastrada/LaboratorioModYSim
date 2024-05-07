@@ -32,11 +32,11 @@ public class ArriboTest {
     }
 
     @Test
-    public void testSomeMethod() {
+    public void testGenerarProximoArriboYSalida() {
         Avion avion1 = new Avion();
-        //Arribo inicio = new Arribo(0, avion1);
+        Arribo inicio = new Arribo(0.0, avion1);
         
-        //Avion entidadSalida = inicio.procesarEvento(this.fel, true);
+        inicio.procesarEvento(this.fel, true);
         
         this.fel.ordenarFEL();
         this.fel.forEach((evento) -> {
@@ -46,11 +46,11 @@ public class ArriboTest {
         Evento evento1 = this.fel.remove(0), evento2 = this.fel.remove(0);
         
         Assertions.assertTrue(Salida.class.isInstance(evento1));
-        Assertions.assertEquals(evento1.getEntidad(),avion1);
-        Assertions.assertEquals(evento1.getTiempo(), 5);
+        Assertions.assertEquals(avion1,evento1.getEntidad());
+        Assertions.assertEquals(5.0,evento1.getTiempo());
         
         Assertions.assertTrue(Arribo.class.isInstance(evento2));
-        Assertions.assertEquals(evento2.getTiempo(),5);
+        Assertions.assertEquals(5.0,evento2.getTiempo());
     }
     
 }
