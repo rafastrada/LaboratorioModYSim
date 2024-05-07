@@ -16,7 +16,7 @@ public class LaboratorioModYSim {
 //        SimulacionParteUno simulacion = new SimulacionParteUno();
 //        simulacion.iniciarSimulacion();
 
-        SimulacionParteDos simulacion = new SimulacionParteDos(4);
+        SimulacionParteDos simulacion = new SimulacionParteDos(5);
         simulacion.iniciarSimulacion();
     }
 }
