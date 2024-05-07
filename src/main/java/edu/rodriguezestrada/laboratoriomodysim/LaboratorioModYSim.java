@@ -4,8 +4,6 @@
 
 package edu.rodriguezestrada.laboratoriomodysim;
 
-import edu.rodriguezestrada.laboratoriomodysim.simulacion.SimulacionParteUno;
-
 /**
  *
  * @author gestrada
@@ -16,7 +14,15 @@ public class LaboratorioModYSim {
 //        SimulacionParteUno simulacion = new SimulacionParteUno();
 //        simulacion.iniciarSimulacion();
 
-        SimulacionParteDos simulacion = new SimulacionParteDos(5);
+        // valor por defecto
+        int cantidadPistas = 5;
+
+        for (String argumento : args) {
+            if (argumento.startsWith("--pistas="))
+                    cantidadPistas = Integer.valueOf(argumento.substring("--pistas=".length()));
+        }
+
+        SimulacionParteDos simulacion = new SimulacionParteDos(cantidadPistas);
         simulacion.iniciarSimulacion();
     }
 }

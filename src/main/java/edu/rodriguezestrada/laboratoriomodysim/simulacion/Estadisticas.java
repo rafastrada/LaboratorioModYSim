@@ -119,10 +119,8 @@ public class Estadisticas {
     }
 
     public Double getOcioTotalProporcional() {
-        if (this.ocioTotal != 0)
-            return Double.valueOf(this.ocioTotal) /
-                Double.valueOf(this.tiempoSimulacion);
-        else return 1.0;
+        return Double.valueOf(this.ocioTotal) /
+            Double.valueOf(this.tiempoSimulacion);
     }
     
     public Double getOcioMinimo() {
