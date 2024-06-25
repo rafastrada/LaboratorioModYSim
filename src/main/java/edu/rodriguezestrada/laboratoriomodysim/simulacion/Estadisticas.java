@@ -13,7 +13,6 @@ public class Estadisticas {
     private Double transitoMaximo = 0.0;
     
     private Double esperaTotal = 0.0;
-    private Integer esperaCantidad = 0;
     private Double esperaMinimo = Double.MAX_VALUE;
     private Double esperaMaximo = 0.0;
     
@@ -57,7 +56,6 @@ public class Estadisticas {
     }
     
     public void addEspera(Double tiempoEspera) {
-        this.esperaCantidad++;
         this.esperaTotal += tiempoEspera;
         if (tiempoEspera > 0.0)
             this.esperaMinimo = Double.min(this.esperaMinimo, tiempoEspera);
@@ -150,10 +148,14 @@ public class Estadisticas {
         else return 0.0;
     }
     
+    /**
+     * Devuelve la espera media de los aviones que transitaron por la pista.
+     * @return Espera media de los aviones transitados
+     */
     public Double getEsperaMedio() {
-        if (this.esperaCantidad != 0)
+        if (this.avionesAterrizajes != 0)
             return Double.valueOf(this.esperaTotal) /
-                Double.valueOf(this.esperaCantidad);
+                Double.valueOf(this.avionesAterrizajes);
         else return 0.0;
     }
 
