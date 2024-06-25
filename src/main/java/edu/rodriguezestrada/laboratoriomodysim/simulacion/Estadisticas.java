@@ -29,6 +29,53 @@ public class Estadisticas {
     }
     
     /**
+     * Crea un objeto que contiene todos los valores predifinidos.
+     * 
+     * @param avionesArribos
+     * @param avionesAterrizajes
+     * @param transitoTotal
+     * @param transitoMinimo
+     * @param transitoMaximo
+     * @param esperaTotal
+     * @param esperaMinimo
+     * @param esperaMaximo
+     * @param ocioTotal
+     * @param ocioMinimo
+     * @param ocioMaximo
+     * @param colaTamanioMinimo
+     * @param colaTamanioMaximo
+     * @param tiempoSimulacion 
+     */
+    public Estadisticas(
+            int avionesArribos, int avionesAterrizajes,
+            double transitoTotal, double transitoMinimo, double transitoMaximo,
+            double esperaTotal, double esperaMinimo, double esperaMaximo,
+            double ocioTotal, double ocioMinimo, double ocioMaximo,
+            int colaTamanioMinimo, int colaTamanioMaximo,
+            double tiempoSimulacion
+    ) {
+        this.avionesArribos = avionesArribos;
+        this.avionesAterrizajes = avionesAterrizajes;
+        
+        this.transitoTotal = transitoTotal;
+        this.transitoMinimo = transitoMinimo;
+        this.transitoMaximo = transitoMaximo;
+        
+        this.esperaTotal = esperaTotal;
+        this.esperaMinimo = esperaMinimo;
+        this.esperaMaximo = esperaMaximo;
+        
+        this.ocioTotal = ocioTotal;
+        this.ocioMinimo = ocioMinimo;
+        this.ocioMaximo = ocioMaximo;
+        
+        this.colaTamanioMinimo = colaTamanioMinimo;
+        this.colaTamanioMaximo = colaTamanioMaximo;
+        
+        this.tiempoSimulacion = tiempoSimulacion;
+    }
+    
+    /**
      * Función que devuelve un flotante como un String con la cantidad de decimales pasado por parámetro.
      * Tiene por finalidad acortar las sentencias de impresión.
      * cDR = cadenaDecimalesReducidos
