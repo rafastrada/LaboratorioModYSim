@@ -30,7 +30,10 @@ public class SimulacionParteDos {
     private PistasMultiples servidorMultiple;
     protected Fel eventosFuturos;
     
+    // almacena las estadisticas de toda la simulacion
     private EstadisticasDesgaste estadisticasTotal = null;
+    
+    private boolean imprimirResultados = true;
     
     public Probabilidad distribucionArribosNormal;
     public Probabilidad distribucionSalidas;
@@ -40,21 +43,53 @@ public class SimulacionParteDos {
     private LocalTime reloj;
     
     private ArrayList<SimpleEntry<LocalTime,LocalTime>> horarioFuerte;
+    
     /**
      * Tiempo en el que termina la simulacion, en minutos
      */
-    public final double tiempoFinalizacion =
-            60 * 24 * 7 * 4;
-            // DEBUG
-            //60 * 9;
+    public final double tiempoFinalizacion;
 
     /**
      * Constructor predeterminado.
      * Inicia el servidor multiple con el criterio de selección de Pista Mas Vacia,
      * iniciacion del reloj en cero,
      * y la FEL con el evento de Arribo de la primera entidad en el tiempo cero.
+     * 
+     * El tiempo de simulación es establecido a 4 semanas durante las 24 horas.
      */
     public SimulacionParteDos(int cantidadPistas) {
+        this.tiempoFinalizacion = 60 * 24 * 7 * 4;
+        
+        
+        // iniciacion servidor multiple
+        this.servidorMultiple = new PistasMultiples(new CriterioMasVacia());
+        
+        // se agregan las pistas
+        for (int i = 0; i < cantidadPistas; i++)
+            this.servidorMultiple.add(new PistaDesgastable());
+        
+        
+        this.eventosFuturos = new Fel(this.tiempoFinalizacion);
+        
+        // establece el reloj a las 00:00 horas
+        this.reloj = LocalTime.MIDNIGHT;
+        
+        
+        // arribo de entidad cero
+        this.eventosFuturos.add(new Arribo(0.0, new Avion()));
+        eventosFuturos.ordenarFEL();    // se ordena la fel despues de agregar el primer arribo
+    }
+    
+    /**
+     * Se crea la simulación a partir de una cantidad de pistas y tiempo de finalización arbitrarios.
+     * @param cantidadPistas Cantidad de pistas de tránsito
+     * @param tiempoFinalizacion Tiempo en el que termina la simulación
+     * @param imprimirResultados Determina si imprime los resultados de la simulación por consola
+     */
+    public SimulacionParteDos(int cantidadPistas, double tiempoFinalizacion, boolean imprimirResultados) {
+        this.tiempoFinalizacion = tiempoFinalizacion;
+        this.imprimirResultados = imprimirResultados;
+        
         // iniciacion servidor multiple
         this.servidorMultiple = new PistasMultiples(new CriterioMasVacia());
         
@@ -217,14 +252,13 @@ public class SimulacionParteDos {
         
         // imprime estadisticas de todas las pistas
         // DEBUG
-        for (Pista pista : servidorMultiple) {
-            System.out.println("Pista #" + (servidorMultiple.indexOf(pista) + 1) );
-            System.out.println(pista.getEstadisticasPista().toString());
-        }
-        System.out.println("\n\n\n");
+//        for (Pista pista : servidorMultiple) {
+//            System.out.println("Pista #" + (servidorMultiple.indexOf(pista) + 1) );
+//            System.out.println(pista.getEstadisticasPista().toString());
+//        }
+//        System.out.println("\n\n\n");
         
         // extrae las estadisticas de todas las pistas en una lista
-        // estdGen = estadisticasGenerales
         List<Estadisticas> estdGen = 
                 servidorMultiple.stream().map(pista -> pista.getEstadisticasPista()).toList();
         
@@ -258,45 +292,54 @@ public class SimulacionParteDos {
                         .toList()
         );
         
-        
-        
-        System.out.println("-------------- ESTADISTICAS ----------------");
-        System.out.println(" ");
-        //System.out.println("CANTIDAD DE AERONAVES QUE HAN ARRIBADO: " + servidor.cola.getLast().getEntidad().getNumeroEntidad());
-        System.out.println("CANTIDAD DE NAVES ATERRIZADAS: " + 
-            estadisticasTotal.getAvionesAterrizajes());
-        System.out.println("CANTIDAD DE NAVES ARRIBADAS: " + 
-                estadisticasTotal.getAvionesArribos());
-        /*float tiempoMedio = servidor.generarTiempoPromedio(reloj, cantidadAterrizados);*/
-        
-        System.out.println("\nTIEMPOS EN SISTEMA");
-        System.out.println("Medio: " + estadisticasTotal.getTransitoMedio() +
-                " | Maximo: " + estadisticasTotal.getTransitoMaximo() +
-                " | Minimo: " + estadisticasTotal.getTransitoMinimo());
-        
-        System.out.println("\nTIEMPOS DE ESPERA");
-        
-        System.out.println("Medio: " + 
-                estadisticasTotal.getEsperaMedio() +
-                " | Maximo: " + estadisticasTotal.getEsperaMaximo() +
-                " | Minimo: " + estadisticasTotal.getEsperaMinimo());
-        
-        System.out.println("\nTIEMPOS DE OCIO");
-        
-        System.out.println("Total: " + 
-                Estadisticas.cDR((estadisticasTotal.getOcioTotalProporcional())*100,2)
-                + "%" + 
-                " | Maximo: " + estadisticasTotal.getOcioMaximo() + 
-                " | Minimo: " + estadisticasTotal.getOcioMinimo());
-        
-        System.out.println("\nTAMAÑO COLA DE ESPERA");
-        System.out.println("Maximo: " + estadisticasTotal.getColaTamanioMaximo() + 
-                " | Minimo: " + estadisticasTotal.getColaTamanioMinimo());
-        
-        System.out.println("\nDESGASTE:");
-        for (Pista pista : servidorMultiple) {
-            System.out.println("Pista #" + (servidorMultiple.indexOf(pista)+1) +
-                    ":\t" + PistaDesgastable.class.cast(pista).getDesgaste());
+        // opcion de no imprimir resultados para usar en replicacion de ejecuciones
+        if (imprimirResultados) {
+            System.out.println("-------------- ESTADISTICAS ----------------");
+            System.out.println(" ");
+
+            System.out.println("CANTIDAD DE NAVES ATERRIZADAS: " + 
+                estadisticasTotal.getAvionesAterrizajes());
+            System.out.println("CANTIDAD DE NAVES ARRIBADAS: " + 
+                    estadisticasTotal.getAvionesArribos());
+
+            System.out.println("\nTIEMPOS EN SISTEMA");
+            System.out.println("Medio: " + estadisticasTotal.getTransitoMedio() +
+                    " | Maximo: " + estadisticasTotal.getTransitoMaximo() +
+                    " | Minimo: " + estadisticasTotal.getTransitoMinimo());
+
+            System.out.println("\nTIEMPOS DE ESPERA");
+
+            System.out.println("Medio: " + 
+                    estadisticasTotal.getEsperaMedio() +
+                    " | Maximo: " + estadisticasTotal.getEsperaMaximo() +
+                    " | Minimo: " + estadisticasTotal.getEsperaMinimo());
+
+            System.out.println("\nTIEMPOS DE OCIO");
+
+            System.out.println("Total: " + 
+                    Estadisticas.cDR((estadisticasTotal.getOcioTotalProporcional())*100,2)
+                    + "%" + 
+                    " | Maximo: " + estadisticasTotal.getOcioMaximo() + 
+                    " | Minimo: " + estadisticasTotal.getOcioMinimo());
+
+            System.out.println("\nTAMAÑO COLA DE ESPERA");
+            System.out.println("Maximo: " + estadisticasTotal.getColaTamanioMaximo() + 
+                    " | Minimo: " + estadisticasTotal.getColaTamanioMinimo());
+
+            System.out.println("\nDESGASTE:");
+            for (Pista pista : servidorMultiple) {
+                System.out.println("Pista #" + (servidorMultiple.indexOf(pista)+1) +
+                        ":\t" + PistaDesgastable.class.cast(pista).getDesgaste());
+            }
         }
+        
+    }
+
+    /**
+     * Obtener las estadísticas de la simulación con cantidad arbitraria de servidores.
+     * @return Objeto con estadísticas de la simulación
+     */
+    public EstadisticasDesgaste getEstadisticasTotal() {
+        return estadisticasTotal;
     }
 }
