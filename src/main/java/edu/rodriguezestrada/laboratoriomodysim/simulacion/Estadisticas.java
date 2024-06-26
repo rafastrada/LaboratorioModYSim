@@ -137,6 +137,14 @@ public class Estadisticas {
         if (this.transitoTotal != 0) return transitoMinimo;
         else return 0.0;
     }
+    
+    /**
+     * Devuelve el tránsito total, suma del tránsito de cada entidad en el servidor.
+     * @return Suma total de los tiempos de tránsito
+     */
+    public Double getTransitoTotal() {
+        return this.transitoTotal;
+    }
 
     public Double getTransitoMaximo() {
         return transitoMaximo;
@@ -148,6 +156,14 @@ public class Estadisticas {
 
     public Double getEsperaMaximo() {
         return esperaMaximo;
+    }
+
+    public Double getEsperaTotal() {
+        return esperaTotal;
+    }
+
+    public Double getOcioTotal() {
+        return ocioTotal;
     }
 
     public Double getOcioTotalNominal() {
