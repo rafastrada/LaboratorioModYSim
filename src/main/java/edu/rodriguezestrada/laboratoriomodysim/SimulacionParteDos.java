@@ -3,6 +3,7 @@ package edu.rodriguezestrada.laboratoriomodysim;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.Avion;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.CriterioMasVacia;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.Estadisticas;
+import edu.rodriguezestrada.laboratoriomodysim.simulacion.EstadisticasDesgaste;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.Fel;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.Pista;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.PistaDesgastable;
@@ -28,6 +29,8 @@ import java.util.stream.Collectors;
 public class SimulacionParteDos {
     private PistasMultiples servidorMultiple;
     protected Fel eventosFuturos;
+    
+    private EstadisticasDesgaste estadisticasTotal = null;
     
     public Probabilidad distribucionArribosNormal;
     public Probabilidad distribucionSalidas;
@@ -225,47 +228,70 @@ public class SimulacionParteDos {
         List<Estadisticas> estdGen = 
                 servidorMultiple.stream().map(pista -> pista.getEstadisticasPista()).toList();
         
+        // CALCULO DE ESTADISTICAS PARA MULTIPLES SERVIDORES
+        this.estadisticasTotal = new EstadisticasDesgaste(
+                //arribos
+                estdGen.stream().collect(Collectors.summingInt(estd->estd.getAvionesArribos())),
+                estdGen.stream().collect(Collectors.summingInt(estd->estd.getAvionesAterrizajes())),
+                //transito
+                estdGen.stream().collect(Collectors.summingDouble(estd->estd.getTransitoTotal())),
+                estdGen.stream().map(estd->estd.getTransitoMinimo())
+                        .filter(num->num !=0.0).min(Double::compare).orElse(0.0),
+                estdGen.stream().map(estd->estd.getTransitoMaximo()).max(Double::compare).get(),
+                //espera
+                estdGen.stream().collect(Collectors.summingDouble(estd->estd.getEsperaTotal())),
+                estdGen.stream().map(estd->estd.getEsperaMinimo())
+                        .filter(num->num !=0.0).min(Double::compare).orElse(0.0), 
+                estdGen.stream().map(estd->estd.getEsperaMaximo()).max(Double::compare).get(),
+                //ocio
+                estdGen.stream().collect(Collectors.summingDouble(estd->estd.getOcioTotal())),
+                estdGen.stream().map(estd->estd.getOcioMinimo())
+                        .filter(num->num !=0.0).min(Double::compare).orElse(0.0),
+                estdGen.stream().map(estd->estd.getOcioMaximo()).max(Double::compare).get(),
+                //cola de espera
+                estdGen.stream().map(estd->estd.getColaTamanioMinimo())
+                        .filter(num->num !=0).min(Double::compare).orElse(0),
+                estdGen.stream().map(estd->estd.getColaTamanioMaximo()).max(Double::compare).get(),
+                this.tiempoFinalizacion,
+                servidorMultiple.stream()
+                        .map(pista->PistaDesgastable.class.cast(pista).getDesgaste())
+                        .toList()
+        );
+        
+        
         
         System.out.println("-------------- ESTADISTICAS ----------------");
         System.out.println(" ");
         //System.out.println("CANTIDAD DE AERONAVES QUE HAN ARRIBADO: " + servidor.cola.getLast().getEntidad().getNumeroEntidad());
         System.out.println("CANTIDAD DE NAVES ATERRIZADAS: " + 
-            estdGen.stream().collect(Collectors.summingInt(estd->estd.getAvionesAterrizajes())));
+            estadisticasTotal.getAvionesAterrizajes());
         System.out.println("CANTIDAD DE NAVES ARRIBADAS: " + 
-                estdGen.stream().collect(Collectors.summingInt(estd->estd.getAvionesArribos())));
+                estadisticasTotal.getAvionesArribos());
         /*float tiempoMedio = servidor.generarTiempoPromedio(reloj, cantidadAterrizados);*/
         
         System.out.println("\nTIEMPOS EN SISTEMA");
-        System.out.println("Medio: " + 
-                estdGen.stream().collect(Collectors.summingDouble(estd->estd.getTransitoMedio()))/
-                        estdGen.size() +
-                " | Maximo: " + estdGen.stream().map(estd->estd.getTransitoMaximo()).max(Double::compare).get() +
-                " | Minimo: " + estdGen.stream().map(estd->estd.getTransitoMinimo())
-                        .filter(num->num !=0.0).min(Double::compare).orElse(0.0));
+        System.out.println("Medio: " + estadisticasTotal.getTransitoMedio() +
+                " | Maximo: " + estadisticasTotal.getTransitoMaximo() +
+                " | Minimo: " + estadisticasTotal.getTransitoMinimo());
         
         System.out.println("\nTIEMPOS DE ESPERA");
         
         System.out.println("Medio: " + 
-                estdGen.stream().collect(Collectors.summingDouble(estd->estd.getEsperaMedio()))/
-                        estdGen.size() +
-                " | Maximo: " + estdGen.stream().map(estd->estd.getEsperaMaximo()).max(Double::compare).get() +
-                " | Minimo: " + estdGen.stream().map(estd->estd.getEsperaMinimo())
-                        .filter(num->num !=0.0).min(Double::compare).orElse(0.0));
+                estadisticasTotal.getEsperaMedio() +
+                " | Maximo: " + estadisticasTotal.getEsperaMaximo() +
+                " | Minimo: " + estadisticasTotal.getEsperaMinimo());
         
         System.out.println("\nTIEMPOS DE OCIO");
         
         System.out.println("Total: " + 
-                Estadisticas.cDR((estdGen.stream().collect(Collectors.summingDouble(estd->estd.getOcioTotalProporcional()))/
-                        estdGen.size())*100,2)
+                Estadisticas.cDR((estadisticasTotal.getOcioTotalProporcional())*100,2)
                 + "%" + 
-                " | Maximo: " + estdGen.stream().map(estd->estd.getOcioMaximo()).max(Double::compare).get() + 
-                " | Minimo: " + estdGen.stream().map(estd->estd.getOcioMinimo())
-                        .filter(num->num !=0.0).min(Double::compare).orElse(0.0));
+                " | Maximo: " + estadisticasTotal.getOcioMaximo() + 
+                " | Minimo: " + estadisticasTotal.getOcioMinimo());
         
         System.out.println("\nTAMAÑO COLA DE ESPERA");
-        System.out.println("Maximo: " + estdGen.stream().map(estd->estd.getColaTamanioMaximo()).max(Double::compare).get() + 
-                " | Minimo: " + estdGen.stream().map(estd->estd.getColaTamanioMinimo())
-                        .filter(num->num !=0).min(Double::compare).orElse(0));
+        System.out.println("Maximo: " + estadisticasTotal.getColaTamanioMaximo() + 
+                " | Minimo: " + estadisticasTotal.getColaTamanioMinimo());
         
         System.out.println("\nDESGASTE:");
         for (Pista pista : servidorMultiple) {

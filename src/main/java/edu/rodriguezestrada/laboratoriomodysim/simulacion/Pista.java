@@ -18,6 +18,7 @@ import java.util.Objects;
 public class Pista implements Servidor {
     
     private Avion atendiendo = null;
+    private double esperaDeAtendiendo = 0;
     
     // par clave,valor donde la clave es el avion y el valor el tiempo en el que entro a la cola
     private ArrayDeque<SimpleEntry<Avion,Double>> cola; 
@@ -133,7 +134,8 @@ public class Pista implements Servidor {
             // si el avion pasado por parametro es el atendido, este sale
             if (this.atendiendo.equals(saliente.getEntidad())) {
                 // tiempo que estuvo en el servidor el avion saliente
-                this.estadisticasPista.addTransito(saliente.getTiempo() - this.tiempoUltimaAtencion);
+                this.estadisticasPista.addTransito(
+                        (saliente.getTiempo() - this.tiempoUltimaAtencion) + esperaDeAtendiendo);
 
                 // si hay cola
                 if (!this.cola.isEmpty()) {
@@ -145,10 +147,16 @@ public class Pista implements Servidor {
                     this.atendiendo = siguiente.getKey();
 
                     // se registra su tiempo de espera
-                    this.estadisticasPista.addEspera(saliente.getTiempo() - siguiente.getValue());
+                    this.esperaDeAtendiendo = saliente.getTiempo() - siguiente.getValue();
+                    this.estadisticasPista.addEspera(this.esperaDeAtendiendo);
                     this.estadisticasPista.addAvionesAterrizajes();
                 }
-                else this.atendiendo = null;
+                else {
+                    this.atendiendo = null;
+                    this.esperaDeAtendiendo = 0;
+                }
+                
+                
                 this.tiempoUltimaAtencion = saliente.getTiempo();
             } else {
                 throw new Exception("ERROR: La entidad indicada no está siendo atendida.");

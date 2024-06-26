@@ -1,5 +1,9 @@
-package edu.rodriguezestrada.laboratoriomodysim.simulacion;
+package edu.rodriguezestrada.laboratoriomodysim;
 
+import edu.rodriguezestrada.laboratoriomodysim.simulacion.Avion;
+import edu.rodriguezestrada.laboratoriomodysim.simulacion.Estadisticas;
+import edu.rodriguezestrada.laboratoriomodysim.simulacion.Fel;
+import edu.rodriguezestrada.laboratoriomodysim.simulacion.Pista;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos.Arribo;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos.Evento;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.eventos.Fin;
