@@ -19,13 +19,13 @@ public class CriterioMasVacia implements CriterioSeleccionPista {
      * @return Devuelve la Pista correspondiente bajo el criterio de la mas vacía.
      */
     @Override
-    public Pista pistaEncargada(PistasMultiples aeropuerto) {
-        Iterator<Pista> iterador = aeropuerto.iterator();
-        Pista salida = null;
+    public PistaDesgastable pistaEncargada(PistasMultiples aeropuerto) {
+        Iterator<PistaDesgastable> iterador = aeropuerto.iterator();
+        PistaDesgastable salida = null;
         
         // se recorre las pistas disponibles
         while (iterador.hasNext()) {
-            Pista actual = iterador.next();
+            PistaDesgastable actual = iterador.next();
             
             // la primera pista libre que se encuentre es devuelta
             if (!actual.isOcupado()) return actual;

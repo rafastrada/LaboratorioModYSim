@@ -112,7 +112,10 @@ public class SimulacionParteUno {
 //            System.out.println("---------------------------");
         }
         
+        servidor.cierreOcio(tiempoFinalizacion);
         Estadisticas resultados = servidor.getEstadisticasPista();
+        resultados.setTiempoSimulacion(tiempoFinalizacion);
+        
         
         System.out.println("-------------- ESTADISTICAS ----------------");
         System.out.println(" ");
