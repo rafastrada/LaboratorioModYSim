@@ -17,7 +17,7 @@ public class PistasMultiplesTest {
 
     @Test
     public void testSalidaAvion() {
-        Pista pistas[] = { new Pista(), new Pista()};
+        PistaDesgastable pistas[] = { new PistaDesgastable(), new PistaDesgastable()};
         
         PistasMultiples aeropuerto = new PistasMultiples(List.of(pistas),new CriterioMasVacia());
         

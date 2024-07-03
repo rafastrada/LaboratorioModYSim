@@ -11,7 +11,7 @@ import java.util.Objects;
  * Los eventos se procesan por medio de la interfaz establecida para interactuar con Arribos y Salidas.
  * @author gestrada
  */
-public class PistasMultiples extends ArrayList<Pista> implements Servidor {
+public class PistasMultiples extends ArrayList<PistaDesgastable> implements Servidor {
 
     private CriterioSeleccionPista criterioSeleccionPista = null;
     
@@ -25,7 +25,7 @@ public class PistasMultiples extends ArrayList<Pista> implements Servidor {
         this.criterioSeleccionPista = criterio;
     }
 
-    public PistasMultiples(Collection<? extends Pista> c, CriterioSeleccionPista criterio) {
+    public PistasMultiples(Collection<? extends PistaDesgastable> c, CriterioSeleccionPista criterio) {
         super(c);
         
         this.criterioSeleccionPista = criterio;
@@ -33,8 +33,8 @@ public class PistasMultiples extends ArrayList<Pista> implements Servidor {
     
     @Override
     public void ingresoDeAvion(Arribo ingresante) throws Exception {
-        this.criterioSeleccionPista.pistaEncargada(this)
-                .ingresoDeAvion(ingresante);
+        PistaDesgastable temp = this.criterioSeleccionPista.pistaEncargada(this);
+        temp.ingresoDeAvion(ingresante);
     }
 
     @Override
