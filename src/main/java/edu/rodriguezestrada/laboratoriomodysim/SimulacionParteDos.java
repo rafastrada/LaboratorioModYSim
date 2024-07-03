@@ -1,6 +1,7 @@
 package edu.rodriguezestrada.laboratoriomodysim;
 
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.Avion;
+import edu.rodriguezestrada.laboratoriomodysim.simulacion.CriterioMasSana;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.CriterioMasVacia;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.Estadisticas;
 import edu.rodriguezestrada.laboratoriomodysim.simulacion.EstadisticasDesgaste;
@@ -20,6 +21,7 @@ import java.time.LocalTime;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -60,9 +62,10 @@ public class SimulacionParteDos {
     public SimulacionParteDos(int cantidadPistas) {
         this.tiempoFinalizacion = 60 * 24 * 7 * 4;
         
-        
         // iniciacion servidor multiple
+//        this.servidorMultiple = new PistasMultiples(new CriterioMasSana());
         this.servidorMultiple = new PistasMultiples(new CriterioMasVacia());
+//        this.servidorMultiple = new PistasMultiples(new CriterioAleatorio());
         
         // se agregan las pistas
         for (int i = 0; i < cantidadPistas; i++)
@@ -78,19 +81,28 @@ public class SimulacionParteDos {
         // arribo de entidad cero
         this.eventosFuturos.add(new Arribo(0.0, new Avion()));
         eventosFuturos.ordenarFEL();    // se ordena la fel despues de agregar el primer arribo
+        
+        // establece los horarios de fuerte trafico aereo
+        this.setHorarioFuerte();
+        
+        // establece las distribuciones de probabilidad
+        this.inicializarProbabilidades();
     }
     
     /**
      * Se crea la simulación a partir de una cantidad de pistas y tiempo de finalización arbitrarios.
      * @param cantidadPistas Cantidad de pistas de tránsito
      * @param tiempoFinalizacion Tiempo en el que termina la simulación
+     * @param generadorAleatorio Generador de números aleatorios
      * @param imprimirResultados Determina si imprime los resultados de la simulación por consola
      */
-    public SimulacionParteDos(int cantidadPistas, double tiempoFinalizacion, boolean imprimirResultados) {
+    public SimulacionParteDos(int cantidadPistas, double tiempoFinalizacion,Random generadorAleatorio, boolean imprimirResultados) {
         this.tiempoFinalizacion = tiempoFinalizacion;
         this.imprimirResultados = imprimirResultados;
         
         // iniciacion servidor multiple
+//        this.servidorMultiple = new PistasMultiples(new CriterioAleatorio());
+//        this.servidorMultiple = new PistasMultiples(new CriterioMasSana());
         this.servidorMultiple = new PistasMultiples(new CriterioMasVacia());
         
         // se agregan las pistas
@@ -107,6 +119,12 @@ public class SimulacionParteDos {
         // arribo de entidad cero
         this.eventosFuturos.add(new Arribo(0.0, new Avion()));
         eventosFuturos.ordenarFEL();    // se ordena la fel despues de agregar el primer arribo
+        
+        // establece los horarios de fuerte trafico aereo
+        this.setHorarioFuerte();
+        
+        // establece las distribuciones de probabilidad
+        this.inicializarProbabilidades(generadorAleatorio);
     }
     
     /**
@@ -146,6 +164,24 @@ public class SimulacionParteDos {
         PistaDesgastable.setDistribucionValoresDesgaste(distribucionDesgastePista);
     }
     
+    private void inicializarProbabilidades(Random random) {
+        // arribos en horarios normales
+        this.distribucionArribosNormal = new Exponencial(15.0,random);
+        // arribos en horarios de alto trafico
+        this.distribucionArribosHorarioFuerte = new Exponencial(9.0,random);
+        
+        // salidas
+        this.distribucionSalidas = new Uniforme(10.0, 25.0, random);
+        
+        // desgaste de pistas
+        this.distribucionDesgastePista = new Normal(5.0,1.0, random);
+        
+        // establece las distribuciones
+        Arribo.setValoresAzarosos(distribucionArribosNormal);
+        Salida.setValoresAzarosos(distribucionSalidas);
+        PistaDesgastable.setDistribucionValoresDesgaste(distribucionDesgastePista);
+    }
+    
     /**
      * Indica si el tiempo indicado se encuentra en horario de tráfico fuerte.
      * @param tiempo Tiempo a comparar con horario fuerte.
@@ -159,15 +195,12 @@ public class SimulacionParteDos {
     }
     
     public void iniciarSimulacion() {
-        // establece los horarios de fuerte trafico aereo
-        this.setHorarioFuerte();
-        
-        // establece las distribuciones de probabilidad
-        this.inicializarProbabilidades();
-        
-        System.out.println("----- INICIO DE SIMULACION -----");
-        System.out.println("Tiempo de simulación establecido: " +
-                this.tiempoFinalizacion + " minutos");
+          
+        if (imprimirResultados) {
+            System.out.println("----- INICIO DE SIMULACION -----");
+            System.out.println("Tiempo de simulación establecido: " +
+                    this.tiempoFinalizacion + " minutos");
+        }
         
         
         // captura de primer evento
@@ -278,7 +311,7 @@ public class SimulacionParteDos {
                         .filter(num->num !=0.0).min(Double::compare).orElse(0.0), 
                 estdGen.stream().map(estd->estd.getEsperaMaximo()).max(Double::compare).get(),
                 //ocio
-                estdGen.stream().collect(Collectors.summingDouble(estd->estd.getOcioTotal())),
+                estdGen.stream().collect(Collectors.averagingDouble(estd->estd.getOcioTotal())),
                 estdGen.stream().map(estd->estd.getOcioMinimo())
                         .filter(num->num !=0.0).min(Double::compare).orElse(0.0),
                 estdGen.stream().map(estd->estd.getOcioMaximo()).max(Double::compare).get(),
