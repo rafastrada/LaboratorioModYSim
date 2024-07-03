@@ -5,5 +5,5 @@ package edu.rodriguezestrada.laboratoriomodysim.simulacion;
  * @author gestrada
  */
 public interface CriterioSeleccionPista {
-    Pista pistaEncargada(PistasMultiples aeropuerto);
+    PistaDesgastable pistaEncargada(PistasMultiples aeropuerto);
 }

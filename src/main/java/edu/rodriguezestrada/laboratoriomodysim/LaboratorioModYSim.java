@@ -14,15 +14,22 @@ public class LaboratorioModYSim {
 //        SimulacionParteUno simulacion = new SimulacionParteUno();
 //        simulacion.iniciarSimulacion();
 
-        // valor por defecto
+        // valores por defecto
         int cantidadPistas = 5;
+        int cantidadReplicaciones = 50;
 
         for (String argumento : args) {
             if (argumento.startsWith("--pistas="))
                     cantidadPistas = Integer.valueOf(argumento.substring("--pistas=".length()));
         }
 
-        SimulacionParteDos simulacion = new SimulacionParteDos(cantidadPistas);
-        simulacion.iniciarSimulacion();
+//        SimulacionParteDos simulacion = new SimulacionParteDos(cantidadPistas);
+//        simulacion.iniciarSimulacion();
+
+        SimulacionParteTres replicaciones = new SimulacionParteTres(cantidadReplicaciones,cantidadPistas);
+        
+        replicaciones.iniciarReplicacion();
+////          SimulacionParteUno simulacion = new SimulacionParteUno();
+//          simulacion.iniciarSimulacion();
     }
 }
