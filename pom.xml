@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>edu.rodriguezestrada</groupId>
     <artifactId>LaboratorioModYSim</artifactId>
-    <version>2.0-ENTREGA</version>
+    <version>3.0-ENTREGA</version>
     <packaging>jar</packaging>
     <build>
         <plugins>
@@ -14,6 +14,20 @@
                 <configuration>
                     <compilerArgs>
                     </compilerArgs>
+                    <debug>false</debug>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>edu.rodriguezestrada.laboratoriomodysim.LaboratorioModYSim</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>
@@ -44,4 +58,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <exec.mainClass>edu.rodriguezestrada.laboratoriomodysim.LaboratorioModYSim</exec.mainClass>
     </properties>
+    
+    <name>SimuladorEtapa3</name>
+    <description>Simulador de un aeropuerto orientado a eventos, implementado en base a las especificaciones de la 3ra parte del Trabajo.</description>
 </project>
