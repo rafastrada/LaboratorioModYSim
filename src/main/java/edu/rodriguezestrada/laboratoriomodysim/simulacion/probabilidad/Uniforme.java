@@ -1,11 +1,15 @@
 package edu.rodriguezestrada.laboratoriomodysim.simulacion.probabilidad;
 
+import java.util.Optional;
+import java.util.Random;
+
 /**
  * Distribución de valores con probabilidad Uniforme.
  * @author rodri
  */
 public class Uniforme implements Probabilidad {
     private final Double inferior, superior;
+    private final Random random;
 
     /**
      * Crea una distribución de valores con probabilidad Uniforme indicando los límites del intervalo de los valores.
@@ -15,6 +19,13 @@ public class Uniforme implements Probabilidad {
     public Uniforme(Double inferior, Double superior){
         this.inferior = inferior;
         this.superior = superior;
+        this.random = null;
+    }
+
+    public Uniforme(Double inferior, Double superior, Random random) {
+        this.inferior = inferior;
+        this.superior = superior;
+        this.random = random;
     }
 
     /**
@@ -32,6 +43,8 @@ public class Uniforme implements Probabilidad {
      */
     @Override
     public Double generarValor() {
-        return this.obtenerValor(Math.random());
+        return this.obtenerValor(
+                Optional.ofNullable(random).map(Random::nextDouble)
+        .orElse(Math.random()));
     }
 }

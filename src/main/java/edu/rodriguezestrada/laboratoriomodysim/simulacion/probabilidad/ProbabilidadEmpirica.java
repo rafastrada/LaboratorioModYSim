@@ -3,6 +3,8 @@ package edu.rodriguezestrada.laboratoriomodysim.simulacion.probabilidad;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Optional;
+import java.util.Random;
 
 
 /**
@@ -12,9 +14,16 @@ import java.util.Iterator;
 public class ProbabilidadEmpirica implements Probabilidad {
     
     private final ArrayList<SimpleEntry<Double, Double>> densidad_probabilidad;
+    private final Random random;
 
     public ProbabilidadEmpirica(ArrayList<SimpleEntry<Double, Double>> densidad_probabilidad) {
         this.densidad_probabilidad = densidad_probabilidad;
+        this.random = null;
+    }
+
+    public ProbabilidadEmpirica(ArrayList<SimpleEntry<Double, Double>> densidad_probabilidad, Random random) {
+        this.densidad_probabilidad = densidad_probabilidad;
+        this.random = random;
     }
 
     protected Double obtenerValor(Double numeroAzaroso) {
@@ -38,6 +47,9 @@ public class ProbabilidadEmpirica implements Probabilidad {
 
     @Override
     public Double generarValor() {
-        return this.obtenerValor(Math.random());
+        return this.obtenerValor(
+                Optional.ofNullable(random).map(Random::nextDouble)
+                .orElse(Math.random())
+        );
     }
 }

@@ -1,11 +1,15 @@
 package edu.rodriguezestrada.laboratoriomodysim.simulacion.probabilidad;
 
+import java.util.Optional;
+import java.util.Random;
+
 /**
  * Clase que implementa una distribución de valores exponencial.
  * @author rodri
  */
 public class Exponencial implements Probabilidad {
     private final Double media;  // variable con la inversa de lambda negativa ya calculada
+    private final Random random; // generador de numeros aleatorios    
 
     /**
      * Crea una distribución Exponencial a partir de la media
@@ -13,6 +17,17 @@ public class Exponencial implements Probabilidad {
      */
     public Exponencial(Double media){
         this.media = media;
+        this.random = null;
+    }
+
+    /**
+     * Crea una distribución Exponencial, con un generador de números aleatorios arbitrario
+     * @param media Media de los eventos por unidad
+     * @param random Generador de números aleatorios
+     */
+    public Exponencial(Double media, Random random) {
+        this.media = media;
+        this.random = random;
     }
 
     public Double getMedia() {
@@ -47,6 +62,7 @@ public class Exponencial implements Probabilidad {
      */
     @Override
     public Double generarValor() {
-        return this.obtenerValor(Math.random());
+        return this.obtenerValor(Optional.ofNullable(random)
+        .map(Random::nextDouble).orElse(Math.random()));    // si no esta definido el generador, utiliza uno por defecto
     }
 }

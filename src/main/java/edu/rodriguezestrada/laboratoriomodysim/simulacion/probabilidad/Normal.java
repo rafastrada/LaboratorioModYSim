@@ -1,11 +1,15 @@
 package edu.rodriguezestrada.laboratoriomodysim.simulacion.probabilidad;
 
+import java.util.Optional;
+import java.util.Random;
+
 /**
  *
  * @author gestrada
  */
 public class Normal implements Probabilidad {
     private final Double media, desviacionEstandar;
+    private final Random random;
 
     /**
      * Cantidad de números aleatorios que se utilizan para generar el valor normal estandarizado
@@ -26,6 +30,7 @@ public class Normal implements Probabilidad {
     public Normal() {
         this.media = 0.0;
         this.desviacionEstandar = 1.0;
+        this.random = null;
     }
     
     /**
@@ -36,6 +41,13 @@ public class Normal implements Probabilidad {
     public Normal(Double media, Double desviacionEstandar) {
         this.media = media;
         this.desviacionEstandar = desviacionEstandar;
+        this.random = null;
+    }
+
+    public Normal(Double media, Double desviacionEstandar, Random random) {
+        this.media = media;
+        this.desviacionEstandar = desviacionEstandar;
+        this.random = random;
     }
     
     /**
@@ -49,7 +61,9 @@ public class Normal implements Probabilidad {
         
         // suma los numeros aleatorios
         for (int i = 1; i <= Normal.cantidadAleatorios; i++) {
-            acumulador += Math.random();
+            acumulador += 
+                    Optional.ofNullable(random).map(Random::nextDouble)
+                    .orElse(Math.random());
         }
         
         return (acumulador - Normal.cantidadAleatorios/2) / (Normal.cantidadAleatorios/12);
